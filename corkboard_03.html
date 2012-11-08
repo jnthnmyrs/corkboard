@@ -1,0 +1,58 @@
+<head>
+  <title>corkboard</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span2">
+                {{> sidebar}}
+            </div>
+            <div class="span9 offset1">
+                <ul class="thumbnails">
+                    {{> gallery}}	
+                </ul>		
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- Begin Sidebar Template -->
+<template name="sidebar">
+    <h1>Corkboard</h1>
+    <span class=" lead">{{about}}</span>
+
+    <div class="welcomeText">
+    {{loginButtons}}
+    </div>
+
+    <input type="text-box" class="span2" id="searchBox" placeholder="Search tags.">
+
+    {{#if hasFileReader}}
+    <div id="dropzone">
+    Drop here to upload a new image.
+    </div>
+    {{/if}}
+</template>
+<!-- End Sidebar Template -->
+
+<!-- Begin Gallery Template -->
+<template name="gallery">
+	{{#each thumbnails}}
+		<li class="thumbnail">
+			{{> thumbnail}}
+		</li>
+	{{/each}}
+</template>
+<!-- End Gallery Template -->
+
+<!-- Begin Thumbnail Template -->
+<template name="thumbnail">
+	<div class="{{selected}}">
+    	<span class="title">{{title}}</span>
+    	<span class="date">{{date}}</span>
+    	<span class="delete">&#10006;</span>
+    	<a href="{{imgUrl}}"><img src="{{imgUrl}}" title="{{title}}" width="200px" /></a>
+   	</div>
+</template>
+<!-- End Thumbnail Template -->
