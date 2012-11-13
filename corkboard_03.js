@@ -1,5 +1,5 @@
 // Global stuff
-var Pictures, urlBoxValue, titleBoxValue;
+var urlBoxValue, titleBoxValue;
 
 // Server stuff
 if (Meteor.isServer) {

@@ -36,6 +36,7 @@
 
     {{> commentList}}
     
+    {{currentThumb}}
     
 </template>
 <!-- End Sidebar Template -->
@@ -56,7 +57,7 @@
         <span class="title">{{title}}</span>
         <span class="date">{{date}}</span>
         <span class="delete">&#10006;</span>
-        <a href="{{imgUrl}}"><img src="{{imgUrl}}" title="{{title}}" width="200px" /></a>
+        <a href="#"><img src="{{imgUrl}}" title="{{title}}" width="200px" /></a>
     </div>
 </template>
 <!-- End Thumbnail Template -->
@@ -64,20 +65,22 @@
 <!-- Begin Comments Template -->
 <template name="commentList">
     <ul>
+
         {{#each comments}}
-            <li>{{comment}}</li>
+            <li>{{comment}}</li>  
         {{/each}}
     </ul>
+
     <!-- {{#if singlePicture}} -->
-        <form action="#">
-            <div>
-                 <label for="comment">Your comment:</label>
-                 <input type="text" name="comment" id="comment" value="" tabindex="1" placeholder="Enter your comment here."/>
-            </div>
-            <div>
-                <input class="button btn-primary" type="submit" value="Submit" />
-            </div>
-        </form>
+    
+        <div>
+             <label for="comment">Your comment:</label>
+             <input type="textarea" name="comment" id="comment" value="" tabindex="1" placeholder="Enter your comment here."/>
+        </div>
+        <div>
+            <input class="button btn-primary" type="submit" value="Submit" />
+        </div>
+       
     <!-- {{/if}} -->
 </template>
 <!-- End Comments Template -->

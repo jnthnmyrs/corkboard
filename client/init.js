@@ -88,13 +88,14 @@ Template.sidebar.events({
         var title = null;
         var timestamp = (new Date()).getTime();
         var comment = {
-            name: userId,
+            name: Meteor.userId(),
             comment: "This is what I think"
         };
         reader.onload = function (evt) {
             Pictures.insert({
                 title: title,
                 date: d,
+                comment: { name: Meteor.userId(), comment: "This is what I think" },
                 timestamp: timestamp,
                 imgUrl: reader.result,
                 owner: Meteor.userId()
@@ -120,9 +121,19 @@ Template.sidebar.about = function () {
     return phraseArray[(Math.floor((Math.random()*10)))];
 };
 
+Template.sidebar.currentThumb = function () {
+    var ct = Session.get("selected_thumbnail", "imgUrl");
+    return ct;
+};
+
 Template.sidebar.hasFileReader = function () {
     return !!window.FileReader;
 };
+
+
+
+
+
 
 //--------------------------------------------------
 //  Gallery

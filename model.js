@@ -1,4 +1,6 @@
-Pictures = new Meteor.Collection("pictures");
+var Pictures = new Meteor.Collection("pictures");
+var Comments = new Meteor.Collection("comments");
+
 
 Pictures.allow({
 	insert: function (userID, picture){
@@ -22,4 +24,15 @@ Pictures.allow({
         });
 	}
 
+});
+
+Comments.allow({
+	insert: function (userID, comment){
+    	return true;
+	},
+	remove: function (userID, comments) {
+        return _.all(comments, function (com) {
+            return com.owner == userID;
+    	});
+    }
 });
