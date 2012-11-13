@@ -116,7 +116,7 @@ Template.sidebar.events({
 
 Template.sidebar.about = function () {
 // This guy is here to create "random" little things that show up in the upper-left corner right under "Corkboard"
-    var phraseArray = ["Share your work.", "Play it cool.", "Great work.", "That's that.", "Work fast.", "You can do it.", "Awesome.", "Cool.", "Ah. What's this?", "Ta da."]
+    var phraseArray = ["Share your work.", "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve.", "Sharpen.", "Proof read."]
     return phraseArray[(Math.floor((Math.random()*10)))];
 };
 

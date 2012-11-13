@@ -19,7 +19,7 @@
 
 <!-- Begin Sidebar Template -->
 <template name="sidebar">
-    <h1>Corkboard</h1>
+    <h1><a id="homeLink" href="#">Corkboard</a></h1> <!-- This should lead the user back to the main page. -->
     <span class=" lead">{{about}}</span>
 
     <div class="welcomeText">
@@ -34,9 +34,8 @@
     </div>
     {{/if}}
 
-    <ul>
-        {{> commentList}}
-    </ul>
+    {{> commentList}}
+    
     
 </template>
 <!-- End Sidebar Template -->
@@ -62,8 +61,33 @@
 </template>
 <!-- End Thumbnail Template -->
 
+<!-- Begin Comments Template -->
 <template name="commentList">
-    {{#each comments}}
-        <li></li>
-    {{/each}}
+    <ul>
+        {{#each comments}}
+            <li>{{comment}}</li>
+        {{/each}}
+    </ul>
+    <!-- {{#if singlePicture}} -->
+        <form action="#">
+            <div>
+                 <label for="comment">Your comment:</label>
+                 <input type="text" name="comment" id="comment" value="" tabindex="1" placeholder="Enter your comment here."/>
+            </div>
+            <div>
+                <input class="button btn-primary" type="submit" value="Submit" />
+            </div>
+        </form>
+    <!-- {{/if}} -->
 </template>
+<!-- End Comments Template -->
+
+
+
+
+
+
+
+
+
+
