@@ -10,8 +10,8 @@
             </div>
             <div class="span9 offset1">
                 <ul class="thumbnails">
-                    {{> gallery}}	
-                </ul>		
+                    {{> gallery}}   
+                </ul>       
             </div>
         </div>
     </div>
@@ -33,26 +33,37 @@
     Drop here to upload a new image.
     </div>
     {{/if}}
+
+    <ul>
+        {{> commentList}}
+    </ul>
+    
 </template>
 <!-- End Sidebar Template -->
 
 <!-- Begin Gallery Template -->
 <template name="gallery">
-	{{#each thumbnails}}
-		<li class="thumbnail">
-			{{> thumbnail}}
-		</li>
-	{{/each}}
+    {{#each thumbnails}}
+        <li class="thumbnail">
+            {{> thumbnail}}
+        </li>
+    {{/each}}
 </template>
 <!-- End Gallery Template -->
 
 <!-- Begin Thumbnail Template -->
 <template name="thumbnail">
-	<div class="{{selected}}">
-    	<span class="title">{{title}}</span>
-    	<span class="date">{{date}}</span>
-    	<span class="delete">&#10006;</span>
-    	<a href="{{imgUrl}}"><img src="{{imgUrl}}" title="{{title}}" width="200px" /></a>
-   	</div>
+    <div class="{{selected}}">
+        <span class="title">{{title}}</span>
+        <span class="date">{{date}}</span>
+        <span class="delete">&#10006;</span>
+        <a href="{{imgUrl}}"><img src="{{imgUrl}}" title="{{title}}" width="200px" /></a>
+    </div>
 </template>
 <!-- End Thumbnail Template -->
+
+<template name="commentList">
+    {{#each comments}}
+        <li></li>
+    {{/each}}
+</template>
