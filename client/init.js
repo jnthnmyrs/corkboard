@@ -176,7 +176,7 @@ Template.commentList.events = ({
 
         var currentPicture = Session.get("selected_thumbnail");
         var commentContent = "";
-        Pictures.insert({
+        Comments.insert({
             
             owner: Meteor.userId()
         });
