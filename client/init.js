@@ -128,8 +128,15 @@ Template.sidebar.hasFileReader = function () {
 };
 
 
+//--------------------------------------------------
+//  Trying a hacky thing to unset the "selected_thumbnail" variable
+//--------------------------------------------------
+// Template.allTheContent.events({
+//     'click' : function() {
+//         return Session.set("selected_thumbnail", undefined);
+//     }
 
-
+// });
 
 
 //--------------------------------------------------
@@ -163,7 +170,12 @@ Template.thumbnail.events({
     },
 
     'click .delete': function(){
-        return Pictures.remove(this);
+        var tp = Session.get("selected_thumbnail");
+        var dp = Pictures.remove(this);
+        var dc = Comments.remove({targetPicture: tp});
+        var dpc = dp, dc;
+
+        return dpc;
     }
 
 });
@@ -203,7 +215,12 @@ Template.commentList.events = ({
 
 });
 
-
+$("#commentForm").hide();
+if (Session.get("selected_thumbnail", undefined)){
+    $("#commentForm").hide();
+} else {
+    $("#commentForm").show();
+};
 
 
 

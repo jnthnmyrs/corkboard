@@ -3,19 +3,25 @@
 </head>
 
 <body>
+    {{> allTheContent}}
+</body>
+
+<!-- Begin allTheContent Template -->
+<template name="allTheContent">
     <div class="container">
         <div class="row">
-            <div class="span2">
+            <div class="span3">
                 {{> sidebar}}
             </div>
-            <div class="span9 offset1">
+            <div class="span9">
                 <ul class="thumbnails">
                     {{> gallery}}   
                 </ul>       
             </div>
         </div>
     </div>
-</body>
+</template>
+<!-- End allTheContent Template -->
 
 <!-- Begin Sidebar Template -->
 <template name="sidebar">
@@ -57,7 +63,7 @@
         <span class="title">{{title}}</span>
         <span class="date">{{date}}</span>
         <span class="delete">&#10006;</span>
-        <a href="#"><img src="{{imgUrl}}" title="{{title}}" width="200px" /></a>
+        <a href="#"><img src="{{imgUrl}}" title="{{title}}" /></a>
     </li>
 </template>
 <!-- End Thumbnail Template -->
@@ -71,7 +77,7 @@
     </ul>
 
 
-    <form action="post">
+    <form id="commentForm" action="post">
         <div>
              <label for="comment">Your comment:</label>
              <textarea name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></textarea>

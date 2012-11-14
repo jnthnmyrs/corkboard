@@ -46,26 +46,37 @@ h1 a#homeLink:hover{
     color: #3388bb;
     text-shadow:0px 1px #ddeeff;
 }
-
+/*.thumbnails > li {
+	margin-left: 0;
+	margin-bottom: 0;
+}*/
 .thumbnail {
 	height:230px;
-	width: 185px;
-	background-color: #eee;
+	width: 200px;
+	background-color: #f3f3f3;
+	border: none;
+	box-shadow: none;
+	padding-right: 0;
+	padding-left: 0;
 }
 .thumbnail a {
 	display: block;
 	overflow: hidden;
 	height:200px;
+	width:200px;
 }
-.thumbnail:hover {
+/*.thumbnail:hover {
 	background-color: #f5f5f5;
-}
+}*/
 .thumbnail .title {
 	font-weight: bold;
 	color:#333;
 }
-.thumbnail.selected{
-	background-color: #adf;
+li.selected{
+	box-shadow: 0px 0px 0px 1px #daf;
+}
+li.particularlyNotSelected{
+	background-color: #fda;
 }
 .delete {
 	float:right;
