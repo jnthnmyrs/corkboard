@@ -163,7 +163,9 @@ Template.thumbnail.events({
 //  Comments
 //--------------------------------------------------
 Template.commentList.comments = function() {
-    return Comments.find({},{sort: {timestamp: -1}});
+    var tp = Session.get("selected_thumbnail");
+
+    return Comments.find({targetPicture: tp},{sort: {timestamp: -1}});
     // return Pictures.find({}, {
     //   sort: {
     //     timestamp: 1,
@@ -174,13 +176,20 @@ Template.commentList.comments = function() {
 Template.commentList.events = ({
     'click .btn': function(){
 
-        var currentPicture = Session.get("selected_thumbnail");
-        var commentContent = "";
+        var targetPicture = Session.get("selected_thumbnail");
+        var commentContent = $("#commentField").val();
+        var commentAuthor = Meteor.user();
         Comments.insert({
-            
+            targetPicture: targetPicture,
+            commentContent: commentContent,
+            commentAuthor: commentAuthor,
             owner: Meteor.userId()
         });
+    },
+    'click .delete': function () {
+        return Comments.remove(this);
     }
+
 });
 
 

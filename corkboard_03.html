@@ -66,20 +66,20 @@
 <template name="commentList">
     <ul>
         {{#each comments}}
-            <li>{{comment}}</li>  
+            <li><span class="title">{{commentContent}}</span> <span class="delete">&#10006;</span>  <br /><span class="tiny">{{targetPicture}}</span></li>  
         {{/each}}
     </ul>
 
 
-    
-    <div>
-         <label for="comment">Your comment:</label>
-         <input type="textarea" name="comment" id="comment" value="" tabindex="1" placeholder="Enter your comment here."/>
-    </div>
-    <div>
-        <input class="btn btn-primary" type="submit" value="Submit" />
-    </div>
-       
+    <form>
+        <div>
+             <label for="comment">Your comment:</label>
+             <input type="textarea" name="comment" id="commentField" value="" tabindex="1" placeholder="Enter your comment here."/>
+        </div>
+        <div>
+            <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+    </form>
 
 </template>
 <!-- End Comments Template -->
