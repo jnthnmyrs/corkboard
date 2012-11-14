@@ -65,23 +65,22 @@
 <!-- Begin Comments Template -->
 <template name="commentList">
     <ul>
-
         {{#each comments}}
             <li>{{comment}}</li>  
         {{/each}}
     </ul>
 
-    <!-- {{#if singlePicture}} -->
+
     
-        <div>
-             <label for="comment">Your comment:</label>
-             <input type="textarea" name="comment" id="comment" value="" tabindex="1" placeholder="Enter your comment here."/>
-        </div>
-        <div>
-            <input class="button btn-primary" type="submit" value="Submit" />
-        </div>
+    <div>
+         <label for="comment">Your comment:</label>
+         <input type="textarea" name="comment" id="comment" value="" tabindex="1" placeholder="Enter your comment here."/>
+    </div>
+    <div>
+        <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
        
-    <!-- {{/if}} -->
+
 </template>
 <!-- End Comments Template -->
 

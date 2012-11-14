@@ -87,15 +87,12 @@ Template.sidebar.events({
         var d = new Date().toDateString("year");
         var title = null;
         var timestamp = (new Date()).getTime();
-        var comment = {
-            name: Meteor.userId(),
-            comment: "This is what I think"
-        };
+
+        
         reader.onload = function (evt) {
             Pictures.insert({
                 title: title,
                 date: d,
-                comment: { name: Meteor.userId(), comment: "This is what I think" },
                 timestamp: timestamp,
                 imgUrl: reader.result,
                 owner: Meteor.userId()
@@ -162,6 +159,33 @@ Template.thumbnail.events({
 
 });
 
+//--------------------------------------------------
+//  Comments
+//--------------------------------------------------
+Template.commentList.comments = function() {
+    return Comments.find({},{sort: {timestamp: -1}});
+    // return Pictures.find({}, {
+    //   sort: {
+    //     timestamp: 1,
+    //   }
+    // });
+};
+
+Template.commentList.events = ({
+    'click .btn': function(){
+
+        var currentPicture = Session.get("selected_thumbnail");
+        var commentContent = "";
+        Pictures.insert({
+            
+            owner: Meteor.userId()
+        });
+    }
+});
+
+
+
+
 
 //--------------------------------------------------
 //  Tracking selected list in URL
@@ -186,26 +210,26 @@ Template.thumbnail.events({
 // });
 
 
-var Router = Backbone.Router.extend({
-  routes: {
-    "":                 "main", //this will be http://your_domain/
-    "help":             "help"  // http://your_domain/help
-  },
+// var Router = Backbone.Router.extend({
+//   routes: {
+//     "":                 "main", //this will be http://your_domain/
+//     "help":             "help"  // http://your_domain/help
+//   },
 
-  main: function() {
-    // Your homepage code
-    // for example: Session.set('currentPage', 'homePage');
-    Session.set('currentPage', 'homePage');
-  },
+//   main: function() {
+//     // Your homepage code
+//     // for example: Session.set('currentPage', 'homePage');
+//     Session.set('currentPage', 'homePage');
+//   },
 
-  help: function() {
-    // Help page
-  }
-});
-var app = new Router;
-Meteor.startup(function () {
-  Backbone.history.start({pushState: true});
-});
+//   help: function() {
+//     // Help page
+//   }
+// });
+// var app = new Router;
+// Meteor.startup(function () {
+//   Backbone.history.start({pushState: true});
+// });
 
 
 
