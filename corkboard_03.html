@@ -70,14 +70,14 @@
 
 <!-- Begin Comments Template -->
 <template name="commentList">
-    <ul class="unstyled">
+    <ul class="unstyled {{hiddenComments}}">
         {{#each comments}}
             <li><span class="title">{{commentContent}}</span> <span class="delete">&#10006;</span>  <br /><span class="tiny hide">{{targetPicture}}</span></li>  
         {{/each}}
     </ul>
 
 
-    <form id="commentForm" action="post">
+    <form id="commentForm" class="{{hiddenComments}}" action="post">
         <div>
              <label for="comment">Your comment:</label>
              <textarea name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></textarea>

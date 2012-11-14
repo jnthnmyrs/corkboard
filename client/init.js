@@ -107,8 +107,10 @@ Template.sidebar.events({
 
     'dragleave #dropzone': function (e) {
         $(e.currentTarget).removeClass('focused');
+    },
+    'click #homeLink': function() {
+        return Session.set("selected_thumbnail", undefined);
     }
-
 
 });
 
@@ -201,6 +203,14 @@ Template.commentList.comments = function() {
     // });
 };
 
+Template.commentList.hiddenComments = function () {
+    if (Session.get("selected_thumbnail")) {
+        return " ";
+    } else {
+        return "hide";
+    }
+};
+
 Template.commentList.events = ({
     'click .btn': function(){
 
@@ -221,13 +231,6 @@ Template.commentList.events = ({
     }
 
 });
-
-
-// if (Session.get("selected_thumbnail", null)){
-//     $("#commentForm").hide();
-// } else {
-//     $("#commentForm").show();
-// };
 
 
 
