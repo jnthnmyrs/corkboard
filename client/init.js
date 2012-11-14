@@ -147,9 +147,18 @@ Template.gallery.thumbnails = function() {
 //--------------------------------------------------
 //  Thumbnails
 //--------------------------------------------------
+Template.thumbnail.selected = function() {
+    if (Session.equals("selected_thumbnail", this._id)) {
+      return "selected";
+    } else {
+      return "";
+    }
+};
+
+
 Template.thumbnail.events({
 
-    'click': function() {
+    'click': function() {  
         return Session.set("selected_thumbnail", this._id);
     },
 
@@ -176,9 +185,11 @@ Template.commentList.comments = function() {
 Template.commentList.events = ({
     'click .btn': function(){
 
+        var timestamp = (new Date()).getTime();
         var targetPicture = Session.get("selected_thumbnail");
         var commentContent = $("#commentField").val();
         var commentAuthor = Meteor.user();
+
         Comments.insert({
             targetPicture: targetPicture,
             commentContent: commentContent,

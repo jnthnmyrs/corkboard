@@ -64,6 +64,9 @@ h1 a#homeLink:hover{
 	font-weight: bold;
 	color:#333;
 }
+.thumbnail.selected{
+	background-color: #adf;
+}
 .delete {
 	float:right;
 	cursor: pointer;
@@ -78,3 +81,6 @@ h1 a#homeLink:hover{
 	font-size: 7px;
 }
 
+.hide{
+	display: none;
+}
