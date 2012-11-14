@@ -174,11 +174,18 @@ Template.thumbnail.events({
         var dp = Pictures.remove(this);
         var dc = Comments.remove({targetPicture: tp});
         var dpc = dp, dc;
+        Session.set("selected_thumbnail", undefined);
 
         return dpc;
     }
 
 });
+
+// $(":not(.selected)").click(function(){
+//         return Session.set("selected_thumbnail", undefined);
+//     });
+
+
 
 //--------------------------------------------------
 //  Comments
@@ -215,12 +222,12 @@ Template.commentList.events = ({
 
 });
 
-$("#commentForm").hide();
-if (Session.get("selected_thumbnail", undefined)){
-    $("#commentForm").hide();
-} else {
-    $("#commentForm").show();
-};
+
+// if (Session.get("selected_thumbnail", null)){
+//     $("#commentForm").hide();
+// } else {
+//     $("#commentForm").show();
+// };
 
 
 
@@ -270,7 +277,9 @@ if (Session.get("selected_thumbnail", undefined)){
 
 
 
-
+//--------------------------------------------------
+//  Other stuff
+//--------------------------------------------------
 
 
 
