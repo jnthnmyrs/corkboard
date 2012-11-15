@@ -50,6 +50,28 @@ h1 a#homeLink:hover{
 	margin-left: 0;
 	margin-bottom: 0;
 }*/
+
+#commentList{
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-top: 20px;
+}
+#commentList li{
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 5px;
+}
+#commentList li:last-child{
+	border-bottom: 0px solid #ddd;
+	padding-bottom: 10px;
+	margin-bottom: 5px;
+}
+
+#commentForm{
+	margin-bottom: 35px;
+}
+
+
 .thumbnails{
 	position: relative;
 }
@@ -105,6 +127,6 @@ li.particularlyNotSelected{
 	font-size: 7px;
 }
 
-.hide{
+.hidden{
 	display: none;
 }

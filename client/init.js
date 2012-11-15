@@ -114,6 +114,23 @@ Template.sidebar.events({
 
 });
 
+
+// This is here to swap out the search and upload boxes with the commentForm
+Template.sidebar.hiddenSearchUpload = function () {
+        if (Session.get("selected_thumbnail")) {
+        return "hidden";
+    } else {
+        return "notHidden";
+    };
+};
+
+// if (Session.get("selected_thumbnail")) {
+//     $('#searchUpload').hide('fast');
+// } else {
+//     $('#searchUpload').show();
+// };
+
+
 Template.sidebar.about = function () {
 // This guy is here to create "random" little things that show up in the upper-left corner right under "Corkboard"
     var phraseArray = ["Share your work.", "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve.", "Sharpen.", "Proof read."]
@@ -205,10 +222,15 @@ Template.commentList.comments = function() {
 
 Template.commentList.hiddenComments = function () {
     if (Session.get("selected_thumbnail")) {
-        return " ";
+        return "notHidden";
     } else {
-        return "hide";
+        return "hidden";
     }
+};
+
+Template.commentList.title = function () {
+    var tp = Session.get("selected_thumbnail"); 
+    return tp;
 };
 
 Template.commentList.events = ({
@@ -226,7 +248,7 @@ Template.commentList.events = ({
             owner: Meteor.userId()
         });
         
-
+        // this resets the commentField so the placeholder text shows up
         $('#commentField').val('');
 
     },

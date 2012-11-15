@@ -32,13 +32,15 @@
     {{loginButtons}}
     </div>
 
-    <input type="text" class="span2" id="searchBox" placeholder="Search tags.">
+    <section id="searchUpload" class="{{hiddenSearchUpload}}">
+        <input type="text" class="span2" id="searchBox" placeholder="Search tags.">
 
-    {{#if hasFileReader}}
-    <div id="dropzone">
-    Drop here to upload a new image.
-    </div>
-    {{/if}}
+        {{#if hasFileReader}}
+        <div id="dropzone">
+        Drop here to upload a new image.
+        </div>
+        {{/if}}
+    </section>
 
     {{> commentList}}
     
@@ -70,7 +72,8 @@
 
 <!-- Begin Comments Template -->
 <template name="commentList">
-    <ul class="unstyled {{hiddenComments}}">
+    <ul id="commentList" class="unstyled {{hiddenComments}}">
+        The Comments for <h4>{{title}}</h4>
         {{#each comments}}
             <li><span class="title">{{commentContent}}</span> <span class="delete">&#10006;</span>  <br /><span class="tiny hide">{{targetPicture}}</span></li>  
         {{/each}}
@@ -79,7 +82,7 @@
 
     <div id="commentForm" class="{{hiddenComments}}">
         <div>
-             <label for="comment">Comment</label>
+             <h5<label for="comment">Your Comment</label></h5>
              <textarea name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></textarea>
         </div>
         <div>
