@@ -42,7 +42,7 @@
 
     {{> commentList}}
     
-    <span class="">{{currentThumb}}</span>
+    <span class="hide">{{currentThumb}}</span>
     
 </template>
 <!-- End Sidebar Template -->
@@ -59,7 +59,7 @@
 
 <!-- Begin Thumbnail Template -->
 <template name="thumbnail">
-    <li class="thumbnail {{selected}}">
+    <li class="thumbnail {{selected}}" >
         <span class="title">{{title}}</span>
         <span class="date">{{date}}</span>
         <span class="delete">&#10006;</span>
@@ -77,15 +77,15 @@
     </ul>
 
 
-    <form id="commentForm" class="{{hiddenComments}}" action="post">
+    <div id="commentForm" class="{{hiddenComments}}">
         <div>
-             <label for="comment">Your comment:</label>
+             <label for="comment">Comment</label>
              <textarea name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></textarea>
         </div>
         <div>
-            <input class="btn btn-primary" type="submit" value="Submit" />
+            <input tabIndex="1" class="btn btn-primary" type="submit" value="That's that." />
         </div>
-    </form>
+    </div>
 
 </template>
 <!-- End Comments Template -->
