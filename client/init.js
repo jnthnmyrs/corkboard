@@ -170,6 +170,10 @@ Template.gallery.thumbnails = function() {
     // });
 };
     
+
+//Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
+
+
 //--------------------------------------------------
 //  Thumbnails
 //--------------------------------------------------
@@ -228,9 +232,15 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
+
+
+
+
+// This is here to display the title of the picture above its comments
 Template.commentList.title = function () {
     var tp = Session.get("selected_thumbnail"); 
-    return tp;
+    var title = Pictures.find({_id: "'" + tp + "'"}, {fields: {title: 1}});
+    return title;
 };
 
 Template.commentList.events = ({
