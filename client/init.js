@@ -5,6 +5,13 @@ $(document).ready( function () {
         e.preventDefault();
     });
 
+    // $("body").on('click', function(){
+    //     Session.set("selected_thumbnail", undefined);
+    //     console.log('unset');
+    // });
+
+    //$('img.lazy').lazyload();
+
 });
 
 
@@ -12,20 +19,20 @@ $(document).ready( function () {
 //  Session variables
 //--------------------------------------------------
 
-// // ID of currently selected list
-// Session.set('list_id', null);
+// ID of currently selected list
+Session.set('list_id', null);
 
-// // Name of currently selected tag for filtering
-// Session.set('tag_filter', null);
+// Name of currently selected tag for filtering
+Session.set('tag_filter', null);
 
-// // When adding tag to a picture, ID of the picture
-// Session.set('editing_addtag', null);
+// When adding tag to a picture, ID of the picture
+Session.set('editing_addtag', null);
 
-// // When editing a list name, ID of the list
-// Session.set('editing_listname', null);
+// When editing a list name, ID of the list
+Session.set('editing_listname', null);
 
-// // When editing todo text, ID of the todo
-// Session.set('editing_itemname', null);
+// When editing todo text, ID of the todo
+Session.set('editing_itemname', null);
 
 
 //--------------------------------------------------
@@ -207,7 +214,14 @@ Template.thumbnail.events({
         Session.set("selected_thumbnail", undefined);
 
         return dpc;
-    }
+    },
+
+    'dblclick .title': function (evt, tmpl) { // start editing list name
+        Session.set('editing_listname', this._id);
+        Meteor.flush(); // force DOM redraw, so we can focus the edit field
+        activateInput(tmpl.find("#title-input"));
+        console
+  }
 
 });
 
@@ -272,7 +286,6 @@ Template.commentList.events = ({
 });
 
 
-    //$('img.lazy').lazyload();
 
 //--------------------------------------------------
 //  Tracking selected list in URL
