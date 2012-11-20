@@ -29,40 +29,40 @@ $(document).ready( function () {
 
 
 //--------------------------------------------------
-//  Helpers for in-place editing
+// Helpers for in-place editing
 //--------------------------------------------------
 // Returns an event map that handles the "escape" and "return" keys and
 // "blur" events on a text input (given by selector) and interprets them
 // as "ok" or "cancel".
 
-// var okCancelEvents = function (selector, callbacks) {
-//   var ok = callbacks.ok || function () {};
-//   var cancel = callbacks.cancel || function () {};
+var okCancelEvents = function (selector, callbacks) {
+  var ok = callbacks.ok || function () {};
+  var cancel = callbacks.cancel || function () {};
 
-//   var events = {};
-//   events['keyup '+selector+', keydown '+selector+', focusout '+selector] =
-//     function (evt) {
-//       if (evt.type === "keydown" && evt.which === 27) {
-//         // escape = cancel
-//         cancel.call(this, evt);
+  var events = {};
+  events['keyup '+selector+', keydown '+selector+', focusout '+selector] =
+    function (evt) {
+      if (evt.type === "keydown" && evt.which === 27) {
+        // escape = cancel
+        cancel.call(this, evt);
 
-//       } else if (evt.type === "keyup" && evt.which === 13 ||
-//                  evt.type === "focusout") {
-//         // blur/return/enter = ok/submit if non-empty
-//         var value = String(evt.target.value || "");
-//         if (value)
-//           ok.call(this, value, evt);
-//         else
-//           cancel.call(this, evt);
-//       }
-//     };
-//   return events;
-// };
+      } else if (evt.type === "keyup" && evt.which === 13 ||
+                 evt.type === "focusout") {
+        // blur/return/enter = ok/submit if non-empty
+        var value = String(evt.target.value || "");
+        if (value)
+          ok.call(this, value, evt);
+        else
+          cancel.call(this, evt);
+      }
+    };
+  return events;
+};
 
-// var activateInput = function (input) {
-//   input.focus();
-//   input.select();
-// };
+var activateInput = function (input) {
+  input.focus();
+  input.select();
+};
 
 
 
@@ -145,7 +145,14 @@ Template.sidebar.currentThumb = function () {
 Template.sidebar.hasFileReader = function () {
     return !!window.FileReader;
 };
-
+// This is here to display the title of the picture above its comments
+Template.sidebar.selectedTitle = function () {
+    var tp = Session.get("selected_thumbnail"); 
+    var title = Pictures.find({_id:tp}, {}).fetch()[0];    //findOne({_id:tp});
+    if (title) {
+        return title.title;
+    };
+};
 
 //--------------------------------------------------
 //  Trying a hacky thing to unset the "selected_thumbnail" variable
@@ -211,17 +218,23 @@ Template.thumbnail.events({
 
 
 //--------------------------------------------------
+//  Tags
+//--------------------------------------------------
+Template.tagList.tags = function() {
+    var tp = Session.get("selected_thumbnail");
+
+    return Tags.find({targetPicture: tp},{sort: {timestamp: -1}});
+};
+
+
+
+//--------------------------------------------------
 //  Comments
 //--------------------------------------------------
 Template.commentList.comments = function() {
     var tp = Session.get("selected_thumbnail");
 
     return Comments.find({targetPicture: tp},{sort: {timestamp: -1}});
-    // return Pictures.find({}, {
-    //   sort: {
-    //     timestamp: 1,
-    //   }
-    // });
 };
 
 Template.commentList.hiddenComments = function () {
@@ -232,16 +245,6 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
-
-
-
-
-// This is here to display the title of the picture above its comments
-Template.commentList.title = function () {
-    var tp = Session.get("selected_thumbnail"); 
-    var title = Pictures.find({_id: "'" + tp + "'"}, {fields: {title: 1}});
-    return title;
-};
 
 Template.commentList.events = ({
     'click .btn': function(){
@@ -269,6 +272,7 @@ Template.commentList.events = ({
 });
 
 
+    //$('img.lazy').lazyload();
 
 //--------------------------------------------------
 //  Tracking selected list in URL

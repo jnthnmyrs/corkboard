@@ -42,6 +42,10 @@
         {{/if}}
     </section>
 
+    <h4>{{selectedTitle}}</h4>
+
+    {{> tagList}}
+
     {{> commentList}}
     
     <span class="hide">{{currentThumb}}</span>
@@ -63,17 +67,29 @@
 <template name="thumbnail">
     <li class="thumbnail {{selected}}" >
         <span class="title">{{title}}</span>
-        <span class="date">{{date}}</span>
+        <span class="date">{{date}}{{tags}}</span>
         <span class="delete">&#10006;</span>
-        <a href="#"><img src="{{imgUrl}}" title="{{title}}" /></a>
+        <a href="#"><img class="lazy" src="{{imgUrl}}" title="{{title}}" /></a>
     </li>
 </template>
 <!-- End Thumbnail Template -->
 
+<!-- Begin taglist Template -->
+<template name="tagList">
+
+    <ul id="taglist">
+        {{#each tags}}
+            <li>{{tag}}</li>  
+        {{/each}}
+    </ul>
+</template>
+<!-- End taglist Template -->
+
 <!-- Begin Comments Template -->
 <template name="commentList">
+
     <ul id="commentList" class="unstyled {{hiddenComments}}">
-        The Comments for <h4>{{title}}</h4>
+        <h5>Comments</h5>
         {{#each comments}}
             <li><span class="title">{{commentContent}}</span> <span class="delete">&#10006;</span>  <br /><span class="tiny hide">{{targetPicture}}</span></li>  
         {{/each}}
@@ -92,7 +108,6 @@
 
 </template>
 <!-- End Comments Template -->
-
 
 
 

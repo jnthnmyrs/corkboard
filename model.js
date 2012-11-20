@@ -1,5 +1,6 @@
 var Pictures = new Meteor.Collection("pictures");
 var Comments = new Meteor.Collection("comments");
+var Tags = new Meteor.Collection("tags");
 
 
 Pictures.allow({
@@ -33,6 +34,17 @@ Comments.allow({
 	remove: function (userID, comments) {
         return _.all(comments, function (com) {
             return com.owner == userID;
+    	});
+    }
+});
+
+Tags.allow({
+	insert: function (userID, tag){
+    	return true;
+	},
+	remove: function (userID, tag) {
+        return _.all(tags, function (tg) {
+            return tg.owner == userID;
     	});
     }
 });
