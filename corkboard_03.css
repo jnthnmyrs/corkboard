@@ -1,7 +1,13 @@
 /* CSS declarations go here */
+body{
+/*	background: url('bg-gradient.png') fixed top center;*/
+	background: #fafbfc;
+	color: #312333;
+}
+
 .container {
 	margin-top: 30px;
-	background-color: #fff;
+	background-color: transparent;
 }
 
 #searchBox {
@@ -9,7 +15,7 @@
 }
 
 h1 a#homeLink{
-	color:#333;
+	color: #312333;
 }
 
 h1 a#homeLink:hover{
@@ -80,50 +86,110 @@ h1 a#homeLink:hover{
 .thumbnails{
 	position: relative;
 }
-.thumbnail {
-	height:230px;
-	width: 260px;
-	background-color: #f3f3f3;
-	border: none;
+.thumbnails > li{
+	height:300px;
+	width: 278px;
+	background-color: #fdfeff;
+	border: 1px solid #f2efec;
 	box-shadow: none;
 	padding-right: 0;
 	padding-left: 0;
+	margin-bottom: 40px;
+	margin-left: 20px;
+	position: relative;
 }
-.thumbnail a {
+
+.thumbnail .thumbnail-info{
+	opacity: 0;
+	display: block;
+		  -webkit-transition: opacity 0.2s ease;
+		  -moz-transition: opacity 0.2s ease;
+		  -o-transition: opacity 0.2s ease;
+		  transition: opacity  0.2s ease;
+}
+
+.thumbnail:hover .thumbnail-info, li.selected:hover a.thumbnail-info{
+	cursor: pointer;
+	opacity: 255;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0;
+	border-radius: 3px;
+	background: hsla(180, 20%, 100%, 0.95);
+}
+
+
+.thumbnail .imageContainer {
+	margin: 0 auto;
 	display: block;
 	overflow: hidden;
-	height:200px;
-	width:260px;
+	height:275px;
+	width:258px;
 }
 /*.thumbnail:hover {
 	background-color: #f5f5f5;
 }*/
+
+
 .thumbnail .title {
 	font-weight: bold;
-	color:#333;
+	color:#343536;
+	position: absolute;
+	left: 20px;
+	top: 20px;
 }
+
+.thumbnail .date {
+	color:#343536;
+	position: absolute;
+	left: 20px;
+	top: 45px;
+}
+
+
 li.selected{
-	box-shadow: 0px 0px 0px 1px #daf;
-/*	width:800px;
-	z-index: 100;
-	position: relative;
-	top:0px;
-	left: 0px;*/
+	background-color: #fafbfc;
+	box-shadow: 0px 0px 6px 2px #cccdce;
+	border: 1px solid #fff;
+
 
 }
 li.selected a {
-	/*width: 10000px;
-	height: 10000px;*/
+
 }
 li.particularlyNotSelected{
 	background-color: #fda;
 }
-.delete {
+.thumbnail .delete {
+	display: table-cell;
 	float:right;
 	cursor: pointer;
 	font-weight:bold;
 	color:#ddd;
+	margin-right: 3px;
+	font-size: 30px;
+
+	height: 25px;
+	width: 25px;
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+	position: absolute;
+	top: -10px;
+	right: -16px;
 }
+
+.delete {
+
+	float:right;
+	cursor: pointer;
+	font-weight:bold;
+	color:#ddd;
+	margin-right: 3px;
+	padding: 0;
+}
+
 .delete:hover {
 	color:#777;
 }
