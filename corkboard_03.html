@@ -66,7 +66,7 @@
 <!-- Begin Thumbnail Template -->
 <template name="thumbnail">
     <li class="thumbnail {{selected}}" >
-        <a href="#" class="thumbnail-info">
+        <div href="#" class="thumbnail-info">
             {{#if editing}}
                 <div class="edit">
                     <input id="title-input" type="text" value="{{title}}" />
@@ -76,7 +76,7 @@
             {{/if}}
             <span class="date">{{date}}{{tags}}</span>
             <span class="delete">&#10006;</span>
-        </a>
+        </div>
         <span class="imageContainer"><img class="lazy" src="{{imgUrl}}" title="{{title}}" /></span>
     </li>
 </template>
