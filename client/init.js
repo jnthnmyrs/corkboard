@@ -92,9 +92,9 @@ Template.sidebar.events({
         var file = dt.files[0];
         var reader = new FileReader();
         var d = new Date().toDateString("year");
-        var title = null;
+        var title = prompt("What would you like to title this image?");
         var timestamp = (new Date()).getTime();
-
+        var ownerName = "Someone";
         
         reader.onload = function (evt) {
             Pictures.insert({
@@ -203,7 +203,14 @@ Template.thumbnail.selected = function() {
 Template.thumbnail.events({
 
     'click': function() {  
-        return Session.set("selected_thumbnail", this._id);
+        if(Session.get("selected_thumbnail", this._id)){
+            Session.set("selected_thumbnail", null); 
+        } else {
+            Session.set("selected_thumbnail", this._id); 
+        }
+        
+        // $(this).css("height", "900px");
+        return true;
     },
 
     'click .delete': function(){
@@ -219,8 +226,9 @@ Template.thumbnail.events({
     'dblclick .title': function (evt, tmpl) { // start editing list name
         Session.set('editing_listname', this._id);
         Meteor.flush(); // force DOM redraw, so we can focus the edit field
+        console.log('editing...');
         activateInput(tmpl.find("#title-input"));
-        console
+        
   }
 
 });
@@ -336,16 +344,6 @@ Template.commentList.events = ({
 //--------------------------------------------------
 //  Other stuff
 //--------------------------------------------------
-
-
-
-
-
-
-
-
-
-
 
 
 
