@@ -161,15 +161,6 @@ Template.sidebar.selectedTitle = function () {
     };
 };
 
-//--------------------------------------------------
-//  Trying a hacky thing to unset the "selected_thumbnail" variable
-//--------------------------------------------------
-// Template.allTheContent.events({
-//     'click' : function() {
-//         return Session.set("selected_thumbnail", undefined);
-//     }
-
-// });
 
 
 //--------------------------------------------------
@@ -183,9 +174,6 @@ Template.gallery.thumbnails = function() {
     //   }
     // });
 };
-    
-
-//Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
 
 
 //--------------------------------------------------
@@ -224,10 +212,6 @@ Template.thumbnail.events({
   }
 
 });
-
-// $(":not(.selected)").click(function(){
-//         return Session.set("selected_thumbnail", undefined);
-//     });
 
 
 
