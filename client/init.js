@@ -113,8 +113,8 @@ Template.thumbnail.selected = function() {
     }
 };
 
-Template.thumbnail.postAuthor = function() {
-    return this.userId;
+Template.thumbnail.username = function() {
+    return this.owner;
 };
 
 

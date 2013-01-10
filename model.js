@@ -48,3 +48,10 @@ Tags.allow({
     	});
     }
 });
+
+Meteor.users.allow({
+  update: function(userId, docs) {
+    var user = Meteor.users.findOne(userId);
+    return user == userId;
+  }
+});
