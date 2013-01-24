@@ -92,7 +92,7 @@ Template.sidebar.events({
         var file = dt.files[0];
         var reader = new FileReader();
         var d = new Date().toDateString("year");
-        var title = prompt("What would you like to title this image?");
+        var title = prompt("Title:");
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
         
@@ -199,6 +199,21 @@ Template.thumbnail.selected = function() {
     }
 };
 
+Template.thumbnail.owner = function(){
+    var owner = Meteor.users.findOne({'_id': this.owner}),
+        email = "unknown";
+
+    if(!owner)
+    {
+        return email; 
+    }
+
+    email = owner.emails.shift();
+    var name = email.address.split('@');
+
+    return name.shift().replace('.', ' ');
+
+};
 
 Template.thumbnail.events({
 
@@ -267,6 +282,29 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
+Template.commentList.commentOwner = function(){
+    var owner = Meteor.users.findOne({'_id': this.owner}),
+        email = "unknown";
+
+    if(!owner)
+    {
+        return email; 
+    }
+
+    email = owner.emails.shift();
+    var name = email.address.split('@');
+
+    return name.shift().replace('.', ' ');
+
+};
+
+// Just type the "Enter" key to submit a comment
+$('#commentField').keypress(function(e) {
+        if(e.which == 13) {
+            jQuery(this).blur();
+            jQuery('#commentSubmit').focus().click();
+        }
+    });
 
 Template.commentList.events = ({
     'click .btn': function(){

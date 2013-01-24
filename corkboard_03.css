@@ -83,6 +83,10 @@ h1 a#homeLink:hover{
 	display: block;
 }
 
+.commentAuthor{
+	font-size: 11px;
+	color:rgb(112, 125, 138);
+}
 
 #commentForm{
 	margin-bottom: 35px;
@@ -129,6 +133,10 @@ ul.theList{
 	font-weight: bold;
 }
 
+.owner {
+	text-transform: capitalize;
+}
+
 .theList li .delete{
 	display: none;
 }
@@ -158,7 +166,7 @@ ul.theList{
 	float:right;
 	cursor: pointer;
 	font-weight:bold;
-	color:#777;
+	color:#ddd;
 	margin-right: 3px;
 	padding: 0;
 }
@@ -185,7 +193,6 @@ ul.theList{
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
-
 
 
 

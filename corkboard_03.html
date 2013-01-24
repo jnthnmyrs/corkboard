@@ -35,6 +35,7 @@
     <section id="searchUpload" class=""> <!-- {{hiddenSearchUpload}} -->
         <!-- <input type="text" class="span2" id="searchBox" placeholder="Search tags."> -->
         {{#if currentUser}}
+            {{currentUser.profile}}
             {{#if hasFileReader}}
             <div id="dropzone">
             Drop here to upload a new image.
@@ -76,6 +77,7 @@
                 <span class="title">{{title}}</span> / 
             {{/if}}
             <span class="date">{{date}}{{tags}}</span> /
+            <span class="owner">{{owner}}</span> /
             <span class="delete">&#10006;</span>
         </div>
         {{#if selected}}
@@ -102,7 +104,7 @@
     <ul id="commentList" class="unstyled {{hiddenComments}}">
         <h5>Comments</h5>
         {{#each comments}}
-            <li><span class="delete">&#10006;</span><span class="comment-content title">{{commentContent}}</span>   <br /><span class="tiny hide">{{targetPicture}}</span></li>  
+            <li><span class="owner commentAuthor"> {{commentOwner}}</span><span class="delete">&#10006;</span><span class="comment-content title">{{commentContent}}</span>   <br /></li>  
         {{/each}}
     </ul>
 
@@ -110,10 +112,10 @@
     <div id="commentForm" class="{{hiddenComments}}">
         <div>
              <h5<label for="comment">Your Comment</label></h5>
-             <textarea name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></textarea>
+             <input type="text" name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></input>
         </div>
         <div>
-            <input tabIndex="1" class="btn btn-primary" type="submit" value="That's that." />
+            <input tabIndex="1" class="btn btn-primary" id="commentSubmit" type="submit" value="That's that." />
         </div>
     </div>
 {{/if}}
