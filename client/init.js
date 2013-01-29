@@ -108,7 +108,8 @@ Template.sidebar.events({
         reader.readAsDataURL(file);
     },
 
-    'dragenter #dropzone': function (e) {
+    'dragover #dropzone': function (e) {
+        e.preventDefault();
         $(e.currentTarget).addClass('focused');
     },
 
