@@ -69,9 +69,9 @@
 <template name="thumbnail">
     <li class=" {{selected}}" >
         <div href="#" class="thumbnail-info">
-            {{#if editing}}
+            {{#if editing_title}}
                 <div class="edit">
-                    <input id="title-input" type="text" value="{{title}}" />
+                    <input class="title-input" type="text" value="{{title}}" />
                 </div>
             {{else}}
                 <span class="title">{{title}}</span> / 

@@ -19,20 +19,11 @@ $(document).ready( function () {
 //  Session variables
 //--------------------------------------------------
 
-// ID of currently selected list
-Session.set('list_id', null);
 
-// Name of currently selected tag for filtering
-Session.set('tag_filter', null);
+// When editing a title, ID of the title
+Session.set('editing_title', null);
 
-// When adding tag to a picture, ID of the picture
-Session.set('editing_addtag', null);
 
-// When editing a list name, ID of the list
-Session.set('editing_listname', null);
-
-// When editing todo text, ID of the todo
-Session.set('editing_itemname', null);
 
 
 //--------------------------------------------------
@@ -203,6 +194,7 @@ Template.thumbnail.selected = function() {
 Template.thumbnail.owner = function(){
     var owner = Meteor.users.findOne({'_id': this.owner}),
         email = "unknown";
+        // console.log(owner);
 
     if(!owner)
     {
@@ -215,19 +207,49 @@ Template.thumbnail.owner = function(){
     return name.shift().replace('.', ' ');
 
 };
+// // // // // // // // // // // // // // // // // // // // // // // //  
+// // // // // // // // // // // // // // // // // // // // // // // //  
+// // // // // // // It's raining// // // // // // // // // // // // //  
+// // // // // // // // // // // // // // // // // // // // // // // //  
+// // // // // // // // // // // // // // // // // // // // // // // //  
+
+// This stuff is for when you press Return or Esc
+Template.thumbnail.events(okCancelEvents(
+  '.title',
+  {
+    ok: function (value) {
+      Pictures.update(this._id, {$set: {text: value}});
+      Session.set('editing_title', null);
+    },
+    cancel: function () {
+      Session.set('editing_title', null);
+    }
+  }));
+
+
+
+
+
+
+
+
+Template.thumbnail.editing_title = function () {
+  return Session.equals('editing_title', this._id);
+};
+
 
 Template.thumbnail.events({
 
-    'click': function() {  
-        if(Session.get("selected_thumbnail", this._id)){
-            Session.set("selected_thumbnail", null); 
-        } else {
-            Session.set("selected_thumbnail", this._id); 
-        }
+    // 'click': function() {  
+    //     if(Session.get("selected_thumbnail", this._id)){
+    //         Session.set("selected_thumbnail", null); 
+    //     } else {
+    //         Session.set("selected_thumbnail", this._id); 
+    //     }
         
-        // $(this).css("height", "900px");
-        return true;
-    },
+    //     // $(this).css("height", "900px");
+    //     return true;
+    // },
 
     'click .delete': function(){
         var tp = Session.get("selected_thumbnail");
@@ -240,10 +262,10 @@ Template.thumbnail.events({
     },
 
     'dblclick .title': function (evt, tmpl) { // start editing list name
-        Session.set('editing_listname', this._id);
+        Session.set('editing_title', this._id);
         Meteor.flush(); // force DOM redraw, so we can focus the edit field
         console.log('editing...');
-        activateInput(tmpl.find("#title-input"));
+        activateInput(tmpl.find(".title-input"));
         
   }
 
