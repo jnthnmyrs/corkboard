@@ -218,7 +218,7 @@ Template.thumbnail.events(okCancelEvents(
   '.title-input',
   {
     ok: function (value) {
-      Pictures.update(this._id, {$set: {text: value}});
+      Pictures.update(this._id, {$set: {title: value}});
       Session.set('editing_title', null);
     },
     cancel: function () {
