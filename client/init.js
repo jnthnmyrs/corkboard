@@ -23,7 +23,7 @@ $(document).ready( function () {
 // When editing a title, ID of the title
 Session.set('editing_title', null);
 
-
+Session.set('editing_comment', null);
 
 
 //--------------------------------------------------
@@ -40,12 +40,12 @@ var okCancelEvents = function (selector, callbacks) {
   var events = {};
   events['keyup '+selector+', keydown '+selector+', focusout '+selector] =
     function (evt) {
-      if (evt.type === "keydown" && evt.which === 27) {
+      if (evt.type === "keydown" && evt.which === 27 ||
+                 evt.type === "focusout") {
         // escape = cancel
         cancel.call(this, evt);
 
-      } else if (evt.type === "keyup" && evt.which === 13 ||
-                 evt.type === "focusout") {
+      } else if (evt.type === "keyup" && evt.which === 13) {
         // blur/return/enter = ok/submit if non-empty
         var value = String(evt.target.value || "");
         if (value)
@@ -252,7 +252,7 @@ Template.thumbnail.events({
         var dpc = dp, dc;
         Session.set("selected_thumbnail", undefined);
 
-        return dpc;
+        return confirm("Really? Delete your own handywork?").dpc;
     },
 
     'contextmenu .title': function (evt, tmpl) { // start editing list name
@@ -266,7 +266,6 @@ Template.thumbnail.events({
 
 });
 
-// dblclick
 
 //--------------------------------------------------
 //  Tags
@@ -296,7 +295,7 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
-Template.commentList.commentOwner = function(){
+Template.commentEntry.commentOwner = function(){
     var owner = Meteor.users.findOne({'_id': this.owner}),
         email = "unknown";
 
@@ -312,15 +311,59 @@ Template.commentList.commentOwner = function(){
 
 };
 
-// Just type the "Enter" key to submit a comment
-$('#commentField').keypress(function(e) {
-        if(e.which == 13) {
-            jQuery(this).blur();
-            jQuery('#commentSubmit').focus().click();
-        }
-    });
+
+
+// // This stuff is for when you press Return or Esc
+// Template.commentEntry.events(okCancelEvents(
+//   '.commentContent.title',
+//   {
+//     ok: function (value) {
+//       Comments.update(this._id, {$set: {commentContent: value}});
+//       Session.set('editing_comment', null);
+//     },
+//     cancel: function () {
+//       Session.set('editing_comment', null);
+//     }
+//   }));
+
+Template.commentEntry.events = ({
+
+// 'contextmenu .commentContent.title': function (evt, tmpl) { // start editing list name
+//     evt.preventDefault();
+//     Session.set('editing_comment', this._id);
+//     Meteor.flush(); // force DOM redraw, so we can focus the edit field
+//     console.log('editing a comment...');
+//     activateInput(tmpl.find(".commentContent"));
+        
+//     },
+    'click .delete': function () {
+        return Comments.remove(this);
+    }
+});
+
 
 Template.commentList.events = ({
+    'keyup': function(evt) {
+           if (evt.type === "keyup" && evt.which === 13){
+            var timestamp = (new Date()).getTime();
+            var targetPicture = Session.get("selected_thumbnail");
+            var commentContent = $("#commentField").val();
+            var commentAuthor = Meteor.user();
+
+            Comments.insert({
+                targetPicture: targetPicture,
+                commentContent: commentContent,
+                commentAuthor: commentAuthor,
+                owner: Meteor.userId()
+        });
+        
+        // this resets the commentField so the placeholder text shows up
+        $('#commentField').val('');
+       }
+    },
+
+
+
     'click .btn': function(){
 
         var timestamp = (new Date()).getTime();
@@ -339,57 +382,11 @@ Template.commentList.events = ({
         $('#commentField').val('');
 
     },
-    'click .delete': function () {
-        return Comments.remove(this);
-    }
+
+
 
 });
 
-
-
-//--------------------------------------------------
-//  Tracking selected list in URL
-//--------------------------------------------------
-// var TodosRouter = Backbone.Router.extend({
-//   routes: {
-//     ":list_id": "main"
-//   },
-//   main: function (list_id) {
-//     Session.set("list_id", list_id);
-//     Session.set("tag_filter", null);
-//   },
-//   setList: function (list_id) {
-//     this.navigate(list_id, true);
-//   }
-// });
-
-// Router = new TodosRouter;
-
-// Meteor.startup(function () {
-//   Backbone.history.start({pushState: true});
-// });
-
-
-// var Router = Backbone.Router.extend({
-//   routes: {
-//     "":                 "main", //this will be http://your_domain/
-//     "help":             "help"  // http://your_domain/help
-//   },
-
-//   main: function() {
-//     // Your homepage code
-//     // for example: Session.set('currentPage', 'homePage');
-//     Session.set('currentPage', 'homePage');
-//   },
-
-//   help: function() {
-//     // Help page
-//   }
-// });
-// var app = new Router;
-// Meteor.startup(function () {
-//   Backbone.history.start({pushState: true});
-// });
 
 
 
