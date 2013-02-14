@@ -208,6 +208,42 @@ ul.theList{
 }
 
 
+
+
+/*------------------------------------------
+	Title editing mode styles
+------------------------------------------*/
+
+.edit .title-input, .edit .title-input:focus{
+	border:none;
+	box-shadow: none;
+	float:left;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 22px;
+	font-weight: bold;
+	padding:0;
+	padding-bottom:15px;
+	margin: 0;
+	color: #ef5a00;
+
+}
+
+.edit .title-input::selection {
+	background: #333; /* Safari */
+	}
+::-moz-selection {
+	background: #ffb7b7; /* Firefox */
+}
+
+.edit .title-input::after{
+	content:"/";
+}
+
+
+
+
+
+
 /*------------------------------------------
 	Custom Scrollbar
 ------------------------------------------*/

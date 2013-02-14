@@ -215,7 +215,7 @@ Template.thumbnail.owner = function(){
 
 // This stuff is for when you press Return or Esc
 Template.thumbnail.events(okCancelEvents(
-  '.title',
+  '.title-input',
   {
     ok: function (value) {
       Pictures.update(this._id, {$set: {text: value}});
@@ -227,12 +227,6 @@ Template.thumbnail.events(okCancelEvents(
   }));
 
 
-
-
-
-
-
-
 Template.thumbnail.editing_title = function () {
   return Session.equals('editing_title', this._id);
 };
@@ -240,16 +234,16 @@ Template.thumbnail.editing_title = function () {
 
 Template.thumbnail.events({
 
-    // 'click': function() {  
-    //     if(Session.get("selected_thumbnail", this._id)){
-    //         Session.set("selected_thumbnail", null); 
-    //     } else {
-    //         Session.set("selected_thumbnail", this._id); 
-    //     }
+    'click': function() {  
+        if(Session.get("selected_thumbnail", this._id)){
+            Session.set("selected_thumbnail", null); 
+        } else {
+            Session.set("selected_thumbnail", this._id); 
+        }
         
-    //     // $(this).css("height", "900px");
-    //     return true;
-    // },
+        // $(this).css("height", "900px");
+        return true;
+    },
 
     'click .delete': function(){
         var tp = Session.get("selected_thumbnail");
@@ -261,7 +255,8 @@ Template.thumbnail.events({
         return dpc;
     },
 
-    'dblclick .title': function (evt, tmpl) { // start editing list name
+    'contextmenu .title': function (evt, tmpl) { // start editing list name
+        evt.preventDefault();
         Session.set('editing_title', this._id);
         Meteor.flush(); // force DOM redraw, so we can focus the edit field
         console.log('editing...');
@@ -271,11 +266,7 @@ Template.thumbnail.events({
 
 });
 
-// $(":not(.selected)").click(function(){
-//         return Session.set("selected_thumbnail", undefined);
-//     });
-
-
+// dblclick
 
 //--------------------------------------------------
 //  Tags
