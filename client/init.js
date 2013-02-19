@@ -344,7 +344,7 @@ Template.commentEntry.events = ({
 
 Template.commentList.events = ({
     'keyup': function(evt) {
-           if (evt.type === "keyup" && evt.which === 13){
+           if (evt.which === 13  && $("#commentField").val() != ""){
             var timestamp = (new Date()).getTime();
             var targetPicture = Session.get("selected_thumbnail");
             var commentContent = $("#commentField").val();
