@@ -5,11 +5,6 @@ $(document).ready( function () {
         e.preventDefault();
     });
 
-    // $("body").on('click', function(){
-    //     Session.set("selected_thumbnail", undefined);
-    //     console.log('unset');
-    // });
-
     //$('img.lazy').lazyload();
 
 });
@@ -23,6 +18,7 @@ $(document).ready( function () {
 // When editing a title, ID of the title
 Session.set('editing_title', null);
 
+// When editing a comment, ID of the comment
 Session.set('editing_comment', null);
 
 
@@ -57,6 +53,8 @@ var okCancelEvents = function (selector, callbacks) {
   return events;
 };
 
+//---
+
 var activateInput = function (input) {
   input.focus();
   input.select();
@@ -69,9 +67,9 @@ var activateInput = function (input) {
 //  Sidebar
 //--------------------------------------------------
 
-Template.sidebar.rendered = function () { 
+// Template.sidebar.rendered = function () { 
 
-};
+// };
 
 Template.sidebar.events({
 
@@ -83,7 +81,7 @@ Template.sidebar.events({
         var file = dt.files[0];
         var reader = new FileReader();
         var d = new Date().toDateString("year");
-        var title = prompt("Title:");
+        var title = prompt("Title of image:");
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
         
@@ -93,7 +91,7 @@ Template.sidebar.events({
                 date: d,
                 timestamp: timestamp,
                 imgUrl: reader.result,
-                owner: Meteor.userId()
+                pictureOwner: Meteor.user()
             });
         };
         reader.readAsDataURL(file);
@@ -136,10 +134,10 @@ Template.sidebar.about = function () {
     return phraseArray[0]; // (Math.floor(Math.random()*10)
 };
 
-Template.sidebar.currentThumb = function () {
-    var ct = Session.get("selected_thumbnail", "imgUrl");
-    return ct;
-};
+// Template.sidebar.currentThumb = function () {
+//     var ct = Session.get("selected_thumbnail", "imgUrl");
+//     return ct;
+// };
 
 Template.sidebar.hasFileReader = function () {
     return !!window.FileReader;
@@ -153,27 +151,13 @@ Template.sidebar.selectedTitle = function () {
     };
 };
 
-//--------------------------------------------------
-//  Trying a hacky thing to unset the "selected_thumbnail" variable
-//--------------------------------------------------
-// Template.allTheContent.events({
-//     'click' : function() {
-//         return Session.set("selected_thumbnail", undefined);
-//     }
-
-// });
-
 
 //--------------------------------------------------
 //  Gallery
 //--------------------------------------------------
 Template.gallery.thumbnails = function() {
     return Pictures.find({},{sort: {timestamp: -1}});
-    // return Pictures.find({}, {
-    //   sort: {
-    //     timestamp: 1,
-    //   }
-    // });
+
 };
     
 
@@ -191,22 +175,44 @@ Template.thumbnail.selected = function() {
     }
 };
 
-Template.thumbnail.owner = function(){
-    var owner = Meteor.users.findOne({'_id': this.owner}),
-        email = "unknown";
-        // console.log(owner);
 
-    if(!owner)
-    {
-        return email; 
-    }
 
-    email = owner.emails.shift();
-    var name = email.address.split('@');
 
-    return name.shift().replace('.', ' ');
+Template.thumbnail.pictureOwner = function(){
+    var pictureOwner = this.pictureOwner.emails[0].address.split('@').shift().replace('.', ' ');
+    return pictureOwner;
 
 };
+
+
+// Template.thumbnail.owner = function(){
+
+//     var owner = "";
+//      console.log(owner.length);
+//     // while(owner.length = 0){
+//     //     owner = Meteor.users.findOne({'_id': this.owner});
+//     // };
+//     owner = Meteor.users.findOne({'_id': this.owner});
+//     console.log(owner.emails[0].address);
+
+//     // var owner = Meteor.users.findOne({'_id': this.owner}),
+//     //     emailUnknown = "unknown";
+//     // if(owner.length > 0){
+//     //    var emailAddress = owner.emails[0].address;
+
+//     //     alert(emailAddress);
+//     //     }
+
+//     // if(!owner)
+//     // {
+//     //     return emailUnknown; 
+//     // }else{
+//     //     email = owner.emails;
+//     //     // console.log("This is the owner's email address " + email);
+//     //     var name = email[0].address.split('@');
+//     //     return name;//name.shift().replace('.', ' ');
+//     // }
+// };
 // // // // // // // // // // // // // // // // // // // // // // // //  
 // // // // // // // // // // // // // // // // // // // // // // // //  
 // // // // // // // It's raining// // // // // // // // // // // // //  
@@ -218,8 +224,13 @@ Template.thumbnail.events(okCancelEvents(
   '.title-input',
   {
     ok: function (value) {
-      Pictures.update(this._id, {$set: {title: value}});
-      Session.set('editing_title', null);
+        
+          Pictures.update(this._id, {$set: {title: value}});
+
+          Session.set('editing_title', null);
+        
+          // console.log("The owner of this picture is " + this.owner);
+          // console.log("The logged-in user is " + Meteor.userId());
     },
     cancel: function () {
       Session.set('editing_title', null);
@@ -246,13 +257,20 @@ Template.thumbnail.events({
     },
 
     'click .delete': function(){
-        var tp = Session.get("selected_thumbnail");
-        var dp = Pictures.remove(this);
-        var dc = Comments.remove({targetPicture: tp});
-        var dpc = dp, dc;
-        Session.set("selected_thumbnail", undefined);
+        // var tp = Session.get("selected_thumbnail");
+        // var dp = Pictures.remove(this._id);
+        // var dc = Comments.remove({targetPicture: tp});
+        // var dpc = dp, dc;
+        // Session.set("selected_thumbnail", undefined);
 
-        return confirm("Really? Delete your own handywork?").dpc;
+        // return confirm("Really? Delete your own handywork?").dpc;
+
+        
+        if(confirm("you sure?")){
+            Pictures.remove(this._id);
+            Comments.remove({targetPicture: this._id});
+            Session.set("selected_thumbnail", null);
+        }
     },
 
     'contextmenu .title': function (evt, tmpl) { // start editing list name
@@ -296,18 +314,22 @@ Template.commentList.hiddenComments = function () {
 };
 
 Template.commentEntry.commentOwner = function(){
-    var owner = Meteor.users.findOne({'_id': this.owner}),
-        email = "unknown";
+    var commentAuthor = this.commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
+    return commentAuthor;
 
-    if(!owner)
-    {
-        return email; 
-    }
 
-    email = owner.emails.shift();
-    var name = email.address.split('@');
+//     var owner = Meteor.users.findOne({'_id': this.owner}),
+//         email = "unknown";
 
-    return name.shift().replace('.', ' ');
+//     if(!owner)
+//     {
+//         return email; 
+//     }
+// // THIS ISN'T WORKING RIGHT NOW. Something about Deps
+//     email = owner.emails.shift();
+//     var name = email.address.split('@');
+
+//     return name.shift().replace('.', ' ');
 
 };
 
@@ -328,17 +350,10 @@ Template.commentEntry.commentOwner = function(){
 
 Template.commentEntry.events = ({
 
-// 'contextmenu .commentContent.title': function (evt, tmpl) { // start editing list name
-//     evt.preventDefault();
-//     Session.set('editing_comment', this._id);
-//     Meteor.flush(); // force DOM redraw, so we can focus the edit field
-//     console.log('editing a comment...');
-//     activateInput(tmpl.find(".commentContent"));
-        
-//     },
     'click .delete': function () {
-        return Comments.remove(this);
+        return Comments.remove(this._id);
     }
+
 });
 
 
@@ -362,8 +377,6 @@ Template.commentList.events = ({
        }
     },
 
-
-
     'click .btn': function(){
 
         var timestamp = (new Date()).getTime();
@@ -375,15 +388,13 @@ Template.commentList.events = ({
             targetPicture: targetPicture,
             commentContent: commentContent,
             commentAuthor: commentAuthor,
-            owner: Meteor.userId()
+            // owner: Meteor.userId()
         });
         
         // this resets the commentField so the placeholder text shows up
         $('#commentField').val('');
 
     },
-
-
 
 });
 
