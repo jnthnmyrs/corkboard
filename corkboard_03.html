@@ -4,6 +4,7 @@
 
 <body>
     {{> allTheContent}}
+
 </body>
 
 <!-- Begin allTheContent Template -->
@@ -72,14 +73,16 @@
             {{#if editing_title}}
                 <div class="edit">
                     <input class="title-input" type="text" value="{{title}}" />
-                </div>
+                </div><br />
             {{else}}
-                <span class="title">{{title}}</span> / 
+                <span class="title">{{title}}</span><br />
             {{/if}}
-            <span class="date">{{date}}{{tags}}</span> /
-            <span class="owner">{{pictureOwner}}</span> /
-            <span class="delete">&#10006;</span>
+            <div class="titleInfo">
+                 posted by <span class="owner">{{pictureOwner}}</span> <span class="date"><time class="timeago" datetime="{{date}}">{{date}}</time> {{tags}}</span> 
+            </div>
+            <span class="delete">{{deleteButton}}</span>
         </div>
+
         {{#if selected}}
        <span class="imageContainer"><img class="lazy" src="{{imgUrl}}" title="{{title}}" /></span>
         {{/if}}
@@ -123,7 +126,7 @@
 
 <template name="commentEntry">
             <li>
-                <span class="owner commentAuthor">{{commentOwner}}</span><span class="delete">&#10006;</span><br />
+                <span class="owner commentAuthor">{{commentOwner}}</span><span class="delete">{{deleteButton}}</span><br />
 
                 {{#if editing_comment}}
                     <div class="edit">

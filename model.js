@@ -46,8 +46,14 @@ Comments.allow({
     	return true;
 	},
 	remove: function (userID, comment) {
-        
-        return comment.owner === userID;
+        // This is set to return true; because I don't yet know how to 
+        // delete comments when a whole picture is deleted.
+        // When a picture is deleted, the comment conversation should
+        // be deleted with it, but if this is checking to see if the 
+        // comment.owner and userID match it won't delete those other 
+        // comments.
+
+        return true;  //comment.owner === userID;
     	
     }
 });

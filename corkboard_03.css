@@ -3,6 +3,7 @@ body{
 /*	background: url('bg-gradient.png') fixed top center;*/
 	/*background: #fafbfc;*/
 	color: #312333;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 .container {
@@ -96,6 +97,10 @@ h1 a#homeLink:hover{
 /* ----------------------------	
 	The List
 ---------------------------- */
+.thumbnail-info{
+	line-height: 24px;
+}
+
 
 ul.theList{
 	list-style: none;
@@ -130,11 +135,16 @@ ul.theList{
 }
 
 .theList .title{
-	font-weight: bold;
+	font-weight: normal;
+}
+.titleInfo{
+	font-size: 11px;
 }
 
 .owner {
 	text-transform: capitalize;
+	font-weight: bold;
+	/*color:#312333;*/
 }
 
 .theList li .delete{
@@ -165,7 +175,8 @@ ul.theList{
 
 	float:right;
 	cursor: pointer;
-	font-weight:bold;
+	font-family: helvetica;
+	font-weight:normal;
 	color:#ddd;
 	margin-right: 3px;
 	padding: 0;

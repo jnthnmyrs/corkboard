@@ -80,7 +80,7 @@ Template.sidebar.events({
         var dt = e.dataTransfer;
         var file = dt.files[0];
         var reader = new FileReader();
-        var d = new Date().toDateString("year");
+        var d = new Date().toISOString(); //"2011-12-19T15:28:46.493Z"  //.toDateString("year");
         var title = prompt("Title of image:");
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
@@ -95,6 +95,21 @@ Template.sidebar.events({
             });
         };
         reader.readAsDataURL(file);
+
+        // Here's an email send directive
+        // Email.send({
+        //     to,
+        //     from,
+        //     subject,
+        //     text
+        // }
+
+        Meteor.call('sendEmail',
+            'jonathan.myers@markit.com',
+            'jonathan.myers@markit.com',
+            'Hello from Corkboard!',
+            'This is a test of Email.send.');
+
     },
 
     'dragover #dropzone': function (e) {
@@ -121,23 +136,14 @@ Template.sidebar.hiddenSearchUpload = function () {
     };
 };
 
-// if (Session.get("selected_thumbnail")) {
-//     $('#searchUpload').hide('fast');
-// } else {
-//     $('#searchUpload').show();
-// };
-
 
 Template.sidebar.about = function () {
 // This guy is here to create "random" little things that show up in the upper-left corner right under "Corkboard"
     var phraseArray = ["Share your work.", "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve.", "Sharpen.", "Proof read."]
-    return phraseArray[0]; // (Math.floor(Math.random()*10)
+    var phraseNumber = Math.floor(Math.random()*10);
+    return phraseArray[phraseNumber]; // (Math.floor(Math.random()*10)
 };
 
-// Template.sidebar.currentThumb = function () {
-//     var ct = Session.get("selected_thumbnail", "imgUrl");
-//     return ct;
-// };
 
 Template.sidebar.hasFileReader = function () {
     return !!window.FileReader;
@@ -176,43 +182,31 @@ Template.thumbnail.selected = function() {
 };
 
 
-
-
 Template.thumbnail.pictureOwner = function(){
     var pictureOwner = this.pictureOwner.emails[0].address.split('@').shift().replace('.', ' ');
     return pictureOwner;
 
 };
 
+Template.thumbnail.date = function () {
+    thisDate = this.date;
+    $("time.timeago").timeago();
+    return thisDate;
+};
 
-// Template.thumbnail.owner = function(){
 
-//     var owner = "";
-//      console.log(owner.length);
-//     // while(owner.length = 0){
-//     //     owner = Meteor.users.findOne({'_id': this.owner});
-//     // };
-//     owner = Meteor.users.findOne({'_id': this.owner});
-//     console.log(owner.emails[0].address);
+Template.thumbnail.editing_title = function () {
+  return Session.equals('editing_title', this._id);
+};
 
-//     // var owner = Meteor.users.findOne({'_id': this.owner}),
-//     //     emailUnknown = "unknown";
-//     // if(owner.length > 0){
-//     //    var emailAddress = owner.emails[0].address;
 
-//     //     alert(emailAddress);
-//     //     }
+Template.thumbnail.deleteButton = function () {
+    if( this.pictureOwner._id == Meteor.userId()){
+        return "✖"; // "&#10006;";
+    }
+};
 
-//     // if(!owner)
-//     // {
-//     //     return emailUnknown; 
-//     // }else{
-//     //     email = owner.emails;
-//     //     // console.log("This is the owner's email address " + email);
-//     //     var name = email[0].address.split('@');
-//     //     return name;//name.shift().replace('.', ' ');
-//     // }
-// };
+
 // // // // // // // // // // // // // // // // // // // // // // // //  
 // // // // // // // // // // // // // // // // // // // // // // // //  
 // // // // // // // It's raining// // // // // // // // // // // // //  
@@ -225,75 +219,51 @@ Template.thumbnail.events(okCancelEvents(
   {
     ok: function (value) {
         
-          Pictures.update(this._id, {$set: {title: value}});
+        Pictures.update(this._id, {$set: {title: value}});
+        Session.set('editing_title', null);
 
-          Session.set('editing_title', null);
-        
-          // console.log("The owner of this picture is " + this.owner);
-          // console.log("The logged-in user is " + Meteor.userId());
     },
+
     cancel: function () {
       Session.set('editing_title', null);
     }
   }));
 
 
-Template.thumbnail.editing_title = function () {
-  return Session.equals('editing_title', this._id);
-};
-
 
 Template.thumbnail.events({
 
     'click': function() {  
         if(Session.get("selected_thumbnail", this._id)){
-            Session.set("selected_thumbnail", null); 
-        } else {
-            Session.set("selected_thumbnail", this._id); 
+            Session.set("selected_thumbnail", null);
         }
-        
-        // $(this).css("height", "900px");
+        Session.set("selected_thumbnail", this._id);
+
         return true;
     },
 
-    'click .delete': function(){
-        // var tp = Session.get("selected_thumbnail");
-        // var dp = Pictures.remove(this._id);
-        // var dc = Comments.remove({targetPicture: tp});
-        // var dpc = dp, dc;
-        // Session.set("selected_thumbnail", undefined);
-
-        // return confirm("Really? Delete your own handywork?").dpc;
-
-        
-        if(confirm("you sure?")){
-            Pictures.remove(this._id);
-            Comments.remove({targetPicture: this._id});
-            Session.set("selected_thumbnail", null);
+    'click .delete': function(e){
+        if( this.pictureOwner._id == Meteor.userId()){
+            if(confirm("You sure?")){
+                Pictures.remove(this._id);
+                Comments.remove({targetPicture: this._id});
+                Session.set("selected_thumbnail", null);
+            }
         }
+        e.preventDefault();
+
     },
 
     'contextmenu .title': function (evt, tmpl) { // start editing list name
         evt.preventDefault();
-        Session.set('editing_title', this._id);
-        Meteor.flush(); // force DOM redraw, so we can focus the edit field
-        console.log('editing...');
-        activateInput(tmpl.find(".title-input"));
-        
+        if( this.pictureOwner._id == Meteor.userId()){
+            Session.set('editing_title', this._id);
+            Meteor.flush(); // force DOM redraw, so we can focus the edit field
+            activateInput(tmpl.find(".title-input"));
+        };
   }
 
 });
-
-
-//--------------------------------------------------
-//  Tags
-//--------------------------------------------------
-Template.tagList.tags = function() {
-    var tp = Session.get("selected_thumbnail");
-
-    return Tags.find({targetPicture: tp},{sort: {timestamp: -1}});
-};
-
 
 
 //--------------------------------------------------
@@ -317,41 +287,21 @@ Template.commentEntry.commentOwner = function(){
     var commentAuthor = this.commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
     return commentAuthor;
 
-
-//     var owner = Meteor.users.findOne({'_id': this.owner}),
-//         email = "unknown";
-
-//     if(!owner)
-//     {
-//         return email; 
-//     }
-// // THIS ISN'T WORKING RIGHT NOW. Something about Deps
-//     email = owner.emails.shift();
-//     var name = email.address.split('@');
-
-//     return name.shift().replace('.', ' ');
-
 };
 
-
-
-// // This stuff is for when you press Return or Esc
-// Template.commentEntry.events(okCancelEvents(
-//   '.commentContent.title',
-//   {
-//     ok: function (value) {
-//       Comments.update(this._id, {$set: {commentContent: value}});
-//       Session.set('editing_comment', null);
-//     },
-//     cancel: function () {
-//       Session.set('editing_comment', null);
-//     }
-//   }));
+Template.commentEntry.deleteButton = function () {
+    if( this.commentAuthor._id == Meteor.userId()){
+        return "✖";
+    }
+};
 
 Template.commentEntry.events = ({
 
     'click .delete': function () {
-        return Comments.remove(this._id);
+        // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
+        if( this.owner == Meteor.userId()){
+            return Comments.remove(this._id);
+        };
     }
 
 });
@@ -374,6 +324,24 @@ Template.commentList.events = ({
         
         // this resets the commentField so the placeholder text shows up
         $('#commentField').val('');
+
+        // This is where an email gets sent to the creator of this picture
+        var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
+        var targetEmail = targetPictureObject.pictureOwner.emails[0].address;
+        var targetName = targetEmail.split('@').shift().replace('.', ' ');
+        var commenterName = commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
+
+       
+
+        Meteor.call('sendEmail',
+        targetEmail,
+        'jonathan.myers@markit.com',
+        commenterName + ' commented on your post!',
+        'Hi, ' + targetName + "!\n" + commenterName + " commented on your post:\n" + commentContent + "\nCheck it out on Corkboard.\n- The Corkboard Team"
+        );
+
+
+
        }
     },
 
@@ -388,8 +356,22 @@ Template.commentList.events = ({
             targetPicture: targetPicture,
             commentContent: commentContent,
             commentAuthor: commentAuthor,
-            // owner: Meteor.userId()
+            owner: Meteor.userId()
         });
+
+        var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
+        var targetEmail = targetPictureObject.pictureOwner.emails[0].address;
+        var targetName = targetEmail.split('@').shift().replace('.', ' ');
+        var commenterName = commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
+
+        
+
+        Meteor.call('sendEmail',
+        targetEmail,
+        'jonathan.myers@markit.com',
+        commenterName + ' commented on your post!',
+        'Hi, ' + targetName + "!\n" + commenterName + " commented on your post:\n" + commentContent + "\nCheck it out on Corkboard.\n- The Corkboard Team"
+        );
         
         // this resets the commentField so the placeholder text shows up
         $('#commentField').val('');
@@ -402,8 +384,21 @@ Template.commentList.events = ({
 
 
 //--------------------------------------------------
+//  Tags
+//--------------------------------------------------
+Template.tagList.tags = function() {
+    var tp = Session.get("selected_thumbnail");
+
+    return Tags.find({targetPicture: tp},{sort: {timestamp: -1}});
+};
+
+
+
+//--------------------------------------------------
 //  Other stuff
 //--------------------------------------------------
 
+     
+    
 
 
