@@ -84,7 +84,8 @@ Template.sidebar.events({
         var title = prompt("Title of image:");
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
-        
+
+
         reader.onload = function (evt) {
             Pictures.insert({
                 title: title,
@@ -92,7 +93,7 @@ Template.sidebar.events({
                 timestamp: timestamp,
                 imgUrl: reader.result,
                 pictureOwner: Meteor.user()
-            });
+            }); 
         };
         reader.readAsDataURL(file);
 
@@ -238,6 +239,11 @@ Template.thumbnail.events({
             Session.set("selected_thumbnail", null);
         }
         Session.set("selected_thumbnail", this._id);
+                        var id = Session.get("selected_thumbnail");
+                var tagId = Tags.find({targetPicture: id},{})._id;
+                var commentId = Comments.findOne({targetPicture: id});
+
+                console.log(commentId);
 
         return true;
     },
@@ -245,9 +251,20 @@ Template.thumbnail.events({
     'click .delete': function(e){
         if( this.pictureOwner._id == Meteor.userId()){
             if(confirm("You sure?")){
+                
+                var id = Session.get("selected_thumbnail");
+                var tagId = Tags.find({targetPicture: id},{})._id;
+                var commentId = Comments.findOne({targetPicture: id})._id;
+
+                console.log(commentId);
+
                 Pictures.remove(this._id);
-                Comments.remove({targetPicture: this._id});
+                // while(commentId){
+                //     Comments.remove(commentId);
+                // };
+                
                 Session.set("selected_thumbnail", null);
+                
             }
         }
         e.preventDefault();
@@ -299,7 +316,7 @@ Template.commentEntry.events = ({
 
     'click .delete': function () {
         // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
-        if( this.owner == Meteor.userId()){
+        if( this.commentOwner == Meteor.userId()){
             return Comments.remove(this._id);
         };
     }
@@ -319,7 +336,7 @@ Template.commentList.events = ({
                 targetPicture: targetPicture,
                 commentContent: commentContent,
                 commentAuthor: commentAuthor,
-                owner: Meteor.userId()
+                commentOwner: Meteor.userId()
         });
         
         // this resets the commentField so the placeholder text shows up
@@ -356,7 +373,7 @@ Template.commentList.events = ({
             targetPicture: targetPicture,
             commentContent: commentContent,
             commentAuthor: commentAuthor,
-            owner: Meteor.userId()
+            commentOwner: Meteor.userId()
         });
 
         var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
@@ -386,11 +403,95 @@ Template.commentList.events = ({
 //--------------------------------------------------
 //  Tags
 //--------------------------------------------------
+// Template.tagList.tagList = function(){
+//     return {{#if currentUser}}
+//     <ul id="taglist">
+//         Here are the tags for this picture
+//         <div class="newTag">add a new tag</div> 
+//         {{#each tags}}
+//             {{> tagEntry}} 
+//         {{/each}}
+        
+//     </ul>
+// {{/if}}
+// };
+
+// Template.tagList.tagList = function(){
+//     return "{{#if currentUser}}
+//     <ul id='taglist'>
+//         Here are the tags for this picture
+//         <div class='newTag'>add a new tag</div> 
+//         {{#each tags}}
+//             {{> tagEntry}} 
+//         {{/each}}
+        
+//     </ul>
+// {{/if}}";
+// };
+
 Template.tagList.tags = function() {
     var tp = Session.get("selected_thumbnail");
 
     return Tags.find({targetPicture: tp},{sort: {timestamp: -1}});
 };
+
+// Template.tagList.addNewTag = function () {
+//     if(Session.get("selected_thumbnail"))   { 
+//         var tp = Session.get("selected_thumbnail");
+//         var CurrentPicture = Pictures.find({_id:tp}, {}).fetch()[0];
+//         var CurrentPictureOwner = CurrentPicture.pictureOwner._id;
+//         console.log(CurrentPictureOwner);
+
+//         if( CurrentPictureOwner == Meteor.userId()){
+//             var tagStuff = "<div class='newTag'>add a new tag</div>";
+//             return tagStuff;
+//         }
+//     }
+// };
+
+Template.tagEntry.deleteButton = function () {
+    if( this.tagOwner._id == Meteor.userId()){
+        return "✖";
+    }
+};
+
+Template.tagList.events = ({
+    'click .newTag': function(){
+        var tp = Session.get("selected_thumbnail");
+        var timestamp = (new Date()).getTime();
+
+        Tags.insert({
+            title: Meteor.user().emails[0].address.split('@').shift().replace('.', ' '),
+            targetPicture: tp,
+            timestamp: timestamp,
+            tagOwner: Meteor.user()
+        }); 
+    }
+});
+
+Template.tagEntry.events = ({
+
+    'click .delete': function () {
+        // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
+        // console.log(this.tagOwner._id);
+        if( this.tagOwner._id == Meteor.userId()){
+            return Tags.remove(this._id);
+        };
+    }
+
+});
+
+Template.tagSearch.events = ({
+    'keyup #tagSearch': function() {
+        var searchValue = $("#tagSearch").val();
+        var tagsFound = Tags.find({title: searchValue});
+        var tagTargets = tagsFound.title;
+        console.log("searchValue: " + searchValue);
+        console.log("Tags Found: " + tagsFound);
+        console.log("Titles: " + tagTargets);
+
+    }
+});
 
 
 

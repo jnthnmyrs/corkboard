@@ -49,12 +49,12 @@ h1 a#homeLink:hover{
 	height:70px;
 	text-align: center;
 	text-shadow:0px 1px #fff;
-	box-shadow: 0px 5px 10px -8px #334455;
+	/*box-shadow: 0px 5px 10px -8px #334455;*/
 }
 
 #dropzone.focused {
     border: 0px solid #8899bb;
-    box-shadow: 2px 1px 20px #1199dd inset;
+    /*box-shadow: 2px 1px 20px #1199dd inset;*/
     background-color: #bbeeff;
     color: #3388bb;
     text-shadow:0px 1px #ddeeff;
@@ -239,20 +239,23 @@ ul.theList{
 
 }
 
-.edit .title-input::selection {
+::selection {
 	background: #333; /* Safari */
 	}
 ::-moz-selection {
 	background: #ffb7b7; /* Firefox */
 }
 
-.edit .title-input::after{
+/*.edit .title-input::after{
 	content:"/";
+}*/
+
+
+
+.newTag{
+	cursor: pointer;
+	font-weight: bold;
 }
-
-
-
-
 
 
 /*------------------------------------------

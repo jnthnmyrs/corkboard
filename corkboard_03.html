@@ -34,7 +34,7 @@
     </div>
 
     <section id="searchUpload" class=""> <!-- {{hiddenSearchUpload}} -->
-        <!-- <input type="text" class="span2" id="searchBox" placeholder="Search tags."> -->
+        {{> tagSearch}}
         {{#if currentUser}}
             {{currentUser.profile}}
             {{#if hasFileReader}}
@@ -92,14 +92,27 @@
 
 <!-- Begin taglist Template -->
 <template name="tagList">
-
+{{#if currentUser}}
     <ul id="taglist">
+        <p>Here are the tags for this picture</p>
+        <div class='newTag'>add a new tag</div>
         {{#each tags}}
-            <li>{{tag}}</li>  
+            {{> tagEntry}} 
         {{/each}}
+        
     </ul>
+{{/if}}
 </template>
 <!-- End taglist Template -->
+
+<template name="tagEntry">
+    <li>{{title}}<span class="delete">{{deleteButton}}</span></li>
+</template>
+
+<template name="tagSearch">
+    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input>
+</template>
+
 
 <!-- Begin Comments Template -->
 <template name="commentList">
@@ -107,7 +120,7 @@
     <ul id="commentList" class="unstyled {{hiddenComments}}">
         <h5>Comments</h5>
         {{#each comments}}
-            {{> commentEntry}} 
+            {{> commentEntry}}
         {{/each}}
     </ul>
 
