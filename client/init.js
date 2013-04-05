@@ -21,6 +21,10 @@ Session.set('editing_title', null);
 // When editing a comment, ID of the comment
 Session.set('editing_comment', null);
 
+Handlebars.registerHelper('selected_thumbnail',function(input){
+  return Session.get("selected_thumbnail");
+});
+
 
 //--------------------------------------------------
 // Helpers for in-place editing
@@ -173,11 +177,39 @@ Session.set("postLimit", postLimit)
 
 
 Template.gallery.thumbnails = function() {
-    return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
-
+        return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
 };
-    
 
+
+Template.tagSearch.events = ({
+    'keyup #tagSearch': function() {
+        var searchValue = $("#tagSearch").val();
+
+        var key = "tags." + searchValue;
+        var query = {};
+        query[key] = { "$exists": true };
+
+        var results = Pictures.find(query);
+        results.forEach(function (item) {
+            console.log(item.tags)
+        });
+
+        // Template.gallery.thumbnails = function() {
+        //     Pictures.find({},{ "tags." + searchValue : {$exists: true}});  
+        // }
+
+
+
+    }
+});
+    
+Template.gallery.events = {
+    'click #loadMoreLink': function() { 
+        postLimit += 5;
+        Session.set("postLimit", postLimit);
+        console.log(postLimit);
+    }
+};
 
 
 //--------------------------------------------------
@@ -217,13 +249,7 @@ Template.thumbnail.deleteButton = function () {
 };
 
 
-Template.gallery.events = {
-    'click #loadMoreLink': function() { 
-        postLimit += 5;
-        Session.set("postLimit", postLimit);
-        console.log(postLimit);
-    }
-};
+
 
 
 // // // // // // // // // // // // // // // // // // // // // // // //  
@@ -490,22 +516,22 @@ Template.tagEntry.deleteButton = function () {
 };
 
 Template.tagEntry.events = ({
+    'click': function(){
+
+    },
 
     'click .delete': function () {
         // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
 
         var tp = Session.get("selected_thumbnail");
         var to = Pictures.findOne({_id: tp}).pictureOwner._id;
-        var index = Pictures.findOne({_id: tp}).tags;
-        console.log(index);
+        var tagNames = Pictures.findOne({_id: tp}).tags;
+        console.log("tagnames " + tagNames);
 
-        delete index[this];
+        delete tagNames[this];
 
-        Pictures.update({_id: tp}, {"$set": {tags: index}});
-        //     array.splice(index, 1);
-        if( to == Meteor.userId()){
-            //return Pictures.update({_id: tp},{$pop: {tags: this}} );
-        };
+        Pictures.update({_id: tp}, {"$set": {tags: tagNames}});
+
     }
 
 });
@@ -526,17 +552,7 @@ Template.tagEntry.events = ({
 
 
 
-Template.tagSearch.events = ({
-    'keyup #tagSearch': function() {
-        var searchValue = $("#tagSearch").val();
-        var tagsFound = Tags.find({title: searchValue});
-        var tagTargets = tagsFound.title;
-        console.log("searchValue: " + searchValue);
-        console.log("Tags Found: " + tagsFound);
-        console.log("Titles: " + tagTargets);
 
-    }
-});
 
 
 

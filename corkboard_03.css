@@ -38,6 +38,10 @@ h1 a#homeLink:hover{
 	border-bottom: 1px #dedede solid;
 }
 
+.tm{
+	font-weight: normal;
+}
+
 #dropzone {
 	color: #777;
 	border: 0px dashed #ccc;
@@ -256,6 +260,37 @@ ul.theList{
 	cursor: pointer;
 	font-weight: bold;
 }
+
+/*------------------------------------------
+	Tags
+------------------------------------------*/
+
+.tag{
+	display: block;
+	font-family: arial;
+	font-weight: bold;
+	color: #312333;
+	font-size: 11px;
+	text-transform: capitalize;
+	margin-bottom: 5px;
+	padding: 5px;
+	padding-left: 10px; 
+	background-color: #ededee;
+	border-radius: 3px;
+
+
+}
+
+.tag:hover{
+	color: #312333;
+	background-color: #ddddde;
+	text-decoration: none;
+}
+
+
+
+
+
 
 
 /*------------------------------------------
