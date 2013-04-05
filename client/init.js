@@ -84,16 +84,21 @@ Template.sidebar.events({
         var title = prompt("Title of image:");
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
-
+        var userName = Meteor.user().emails[0].address.split('@').shift().replace('.', ' ');
 
         reader.onload = function (evt) {
-            Pictures.insert({
+
+            var newPicture = {
                 title: title,
                 date: d,
                 timestamp: timestamp,
                 imgUrl: reader.result,
-                pictureOwner: Meteor.user()
-            }); 
+                pictureOwner: Meteor.user(),
+                tags: {},
+            };
+            newPicture.tags[userName] = 0;
+            Pictures.insert(newPicture);
+
         };
         reader.readAsDataURL(file);
 
@@ -105,11 +110,11 @@ Template.sidebar.events({
         //     text
         // }
 
-        Meteor.call('sendEmail',
-            'jonathan.myers@markit.com',
-            'jonathan.myers@markit.com',
-            'Hello from Corkboard!',
-            'This is a test of Email.send.');
+    //     Meteor.call('sendEmail',
+    //         'jonathan.myers@markit.com',
+    //         'jonathan.myers@markit.com',
+    //         'Hello from Corkboard!',
+    //         'This is a test of Email.send.');
 
     },
 
@@ -140,7 +145,7 @@ Template.sidebar.hiddenSearchUpload = function () {
 
 Template.sidebar.about = function () {
 // This guy is here to create "random" little things that show up in the upper-left corner right under "Corkboard"
-    var phraseArray = ["Share your work.", "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve.", "Sharpen.", "Proof read."]
+    var phraseArray = ["Share your work.", "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve stuff.", "Sharpen.", "Proof read."]
     var phraseNumber = Math.floor(Math.random()*10);
     return phraseArray[phraseNumber]; // (Math.floor(Math.random()*10)
 };
@@ -152,7 +157,7 @@ Template.sidebar.hasFileReader = function () {
 // This is here to display the title of the picture above its comments
 Template.sidebar.selectedTitle = function () {
     var tp = Session.get("selected_thumbnail"); 
-    var title = Pictures.find({_id:tp}, {}).fetch()[0];    //findOne({_id:tp});
+    var title = Pictures.findOne({_id:tp}, {});//.fetch()[0];    //findOne({_id:tp});
     if (title) {
         return title.title;
     };
@@ -162,13 +167,17 @@ Template.sidebar.selectedTitle = function () {
 //--------------------------------------------------
 //  Gallery
 //--------------------------------------------------
+var postLimit = 5;
+Session.set("postLimit", postLimit)
+//Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
+
+
 Template.gallery.thumbnails = function() {
-    return Pictures.find({},{sort: {timestamp: -1}});
+    return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
 
 };
     
 
-//Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
 
 
 //--------------------------------------------------
@@ -190,8 +199,8 @@ Template.thumbnail.pictureOwner = function(){
 };
 
 Template.thumbnail.date = function () {
-    thisDate = this.date;
     $("time.timeago").timeago();
+    thisDate = this.date;
     return thisDate;
 };
 
@@ -204,6 +213,15 @@ Template.thumbnail.editing_title = function () {
 Template.thumbnail.deleteButton = function () {
     if( this.pictureOwner._id == Meteor.userId()){
         return "✖"; // "&#10006;";
+    }
+};
+
+
+Template.gallery.events = {
+    'click #loadMoreLink': function() { 
+        postLimit += 5;
+        Session.set("postLimit", postLimit);
+        console.log(postLimit);
     }
 };
 
@@ -243,7 +261,7 @@ Template.thumbnail.events({
                 var tagId = Tags.find({targetPicture: id},{})._id;
                 var commentId = Comments.findOne({targetPicture: id});
 
-                console.log(commentId);
+                // console.log(commentId);
 
         return true;
     },
@@ -253,15 +271,19 @@ Template.thumbnail.events({
             if(confirm("You sure?")){
                 
                 var id = Session.get("selected_thumbnail");
-                var tagId = Tags.find({targetPicture: id},{})._id;
-                var commentId = Comments.findOne({targetPicture: id})._id;
+                // var tagId = Tags.find({targetPicture: id},{})._id;
+                var commentId = Comments.find({targetPicture: id});
 
-                console.log(commentId);
+                // console.log(commentId.collection.docs);
 
                 Pictures.remove(this._id);
-                // while(commentId){
-                //     Comments.remove(commentId);
-                // };
+                
+                for (var i = commentId.collection.docs.length - 1; i >= 0; i--) {
+                    Comments.remove({"_id": commentId.collection.docs[i]._id});
+                };
+
+                
+                
                 
                 Session.set("selected_thumbnail", null);
                 
@@ -337,7 +359,13 @@ Template.commentList.events = ({
                 commentContent: commentContent,
                 commentAuthor: commentAuthor,
                 commentOwner: Meteor.userId()
-        });
+            });
+
+            // Pictures.insert({targetPicture}, {comments: []);
+
+
+
+            // Pictures.update({targetPicture}, comments, );
         
         // this resets the commentField so the placeholder text shows up
         $('#commentField').val('');
@@ -403,83 +431,100 @@ Template.commentList.events = ({
 //--------------------------------------------------
 //  Tags
 //--------------------------------------------------
-// Template.tagList.tagList = function(){
-//     return {{#if currentUser}}
-//     <ul id="taglist">
-//         Here are the tags for this picture
-//         <div class="newTag">add a new tag</div> 
-//         {{#each tags}}
-//             {{> tagEntry}} 
-//         {{/each}}
-        
-//     </ul>
-// {{/if}}
-// };
 
-// Template.tagList.tagList = function(){
-//     return "{{#if currentUser}}
-//     <ul id='taglist'>
-//         Here are the tags for this picture
-//         <div class='newTag'>add a new tag</div> 
-//         {{#each tags}}
-//             {{> tagEntry}} 
-//         {{/each}}
-        
-//     </ul>
-// {{/if}}";
-// };
 
 Template.tagList.tags = function() {
     var tp = Session.get("selected_thumbnail");
 
-    return Tags.find({targetPicture: tp},{sort: {timestamp: -1}});
+    if(tp){
+        var tags = Pictures.findOne({_id: tp}).tags;
+        console.log(tags);
+
+        var tagList = [];
+        for(var tag in tags)
+        {
+            tagList.push(tag);
+        }
+        return tagList;
+    } return false;
 };
 
-// Template.tagList.addNewTag = function () {
-//     if(Session.get("selected_thumbnail"))   { 
-//         var tp = Session.get("selected_thumbnail");
-//         var CurrentPicture = Pictures.find({_id:tp}, {}).fetch()[0];
-//         var CurrentPictureOwner = CurrentPicture.pictureOwner._id;
-//         console.log(CurrentPictureOwner);
 
-//         if( CurrentPictureOwner == Meteor.userId()){
-//             var tagStuff = "<div class='newTag'>add a new tag</div>";
-//             return tagStuff;
-//         }
-//     }
-// };
+
+
+Template.tagInput.events = ({
+    'keyup': function(evt) {
+        var tp = Session.get("selected_thumbnail");
+        var to = Pictures.findOne({_id: tp}).pictureOwner._id;
+
+           if (evt.which === 13  && $("#tagInput").val() != "" && to == Meteor.userId()){
+            var timestamp = (new Date()).getTime();
+            var targetPicture = Session.get("selected_thumbnail");
+            var tagContent = $("#tagInput").val().toLowerCase();
+            var tagAuthor = Meteor.user();
+            var updatePicture = Pictures.findOne({_id: tp});
+
+            var tags = updatePicture.tags;
+            tags[tagContent] = 0;
+
+                Pictures.update({_id: targetPicture}, {'$set': {tags: tags}});
+
+
+                // this resets the commentField so the placeholder text shows up
+                $('#tagInput').val('');
+
+                var tagStuff = Pictures.findOne({_id: targetPicture}).tags;
+                console.log(tagStuff);
+            };     
+    }
+});
 
 Template.tagEntry.deleteButton = function () {
-    if( this.tagOwner._id == Meteor.userId()){
+    
+    var tp = Session.get("selected_thumbnail");
+    var to = Pictures.findOne({_id: tp}).pictureOwner._id;
+
+    if( to == Meteor.userId()){
         return "✖";
     }
 };
-
-Template.tagList.events = ({
-    'click .newTag': function(){
-        var tp = Session.get("selected_thumbnail");
-        var timestamp = (new Date()).getTime();
-
-        Tags.insert({
-            title: Meteor.user().emails[0].address.split('@').shift().replace('.', ' '),
-            targetPicture: tp,
-            timestamp: timestamp,
-            tagOwner: Meteor.user()
-        }); 
-    }
-});
 
 Template.tagEntry.events = ({
 
     'click .delete': function () {
         // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
-        // console.log(this.tagOwner._id);
-        if( this.tagOwner._id == Meteor.userId()){
-            return Tags.remove(this._id);
+
+        var tp = Session.get("selected_thumbnail");
+        var to = Pictures.findOne({_id: tp}).pictureOwner._id;
+        var index = Pictures.findOne({_id: tp}).tags;
+        console.log(index);
+
+        delete index[this];
+
+        Pictures.update({_id: tp}, {"$set": {tags: index}});
+        //     array.splice(index, 1);
+        if( to == Meteor.userId()){
+            //return Pictures.update({_id: tp},{$pop: {tags: this}} );
         };
     }
 
 });
+
+// Template.tagList.events = ({
+//     'click .newTag': function(){
+//         var tp = Session.get("selected_thumbnail");
+//         var timestamp = (new Date()).getTime();
+
+//         Tags.insert({
+//             title: Meteor.user().emails[0].address.split('@').shift().replace('.', ' '),
+//             targetPicture: tp,
+//             timestamp: timestamp,
+//             tagOwner: Meteor.user()
+//         }); 
+//     }
+// });
+
+
 
 Template.tagSearch.events = ({
     'keyup #tagSearch': function() {

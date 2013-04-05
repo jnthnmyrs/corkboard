@@ -86,7 +86,7 @@ h1 a#homeLink:hover{
 
 .commentAuthor{
 	font-size: 11px;
-	color:rgb(112, 125, 138);
+	color:rgb(200, 200, 200); /*This is kind of a nice salmon color color:rgb(256, 140, 160);*/
 }
 
 #commentForm{

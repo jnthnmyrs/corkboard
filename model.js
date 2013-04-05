@@ -1,6 +1,6 @@
-var Pictures = new Meteor.Collection("pictures");
-var Comments = new Meteor.Collection("comments");
-var Tags = new Meteor.Collection("tags");
+Pictures = new Meteor.Collection("pictures");
+Comments = new Meteor.Collection("comments");
+Tags = new Meteor.Collection("tags");
 
 
 Pictures.allow({
@@ -28,7 +28,7 @@ Pictures.allow({
 
 	update: function (userID, picture, fields, modifier){
 
-		return picture.pictureOwner._id === userID;
+		return true; //picture.pictureOwner._id === userID;
 
 	},
 

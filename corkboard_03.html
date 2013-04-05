@@ -63,6 +63,8 @@
             {{> thumbnail}}
         
     {{/each}}
+    <a href="#" id="loadMoreLink">Load More</a>
+    
 </template>
 <!-- End Gallery Template -->
 
@@ -78,7 +80,7 @@
                 <span class="title">{{title}}</span><br />
             {{/if}}
             <div class="titleInfo">
-                 posted by <span class="owner">{{pictureOwner}}</span> <span class="date"><time class="timeago" datetime="{{date}}">{{date}}</time> {{tags}}</span> 
+                 posted by <span class="owner">{{pictureOwner}}</span> <span class="date"><time class="timeago" datetime="{{date}}">{{date}}</time> <!-- {{tags}} --></span> 
             </div>
             <span class="delete">{{deleteButton}}</span>
         </div>
@@ -90,12 +92,16 @@
 </template>
 <!-- End Thumbnail Template -->
 
+<template name="loadMoreLink">
+    <a href="#">Load More</a>
+</template>
+
 <!-- Begin taglist Template -->
 <template name="tagList">
 {{#if currentUser}}
     <ul id="taglist">
         <p>Here are the tags for this picture</p>
-        <div class='newTag'>add a new tag</div>
+        <div class='newTag'>{{> tagInput}}<!-- {{tagAuthorCheck}} --></div>
         {{#each tags}}
             {{> tagEntry}} 
         {{/each}}
@@ -104,14 +110,19 @@
 {{/if}}
 </template>
 <!-- End taglist Template -->
-
-<template name="tagEntry">
-    <li>{{title}}<span class="delete">{{deleteButton}}</span></li>
-</template>
-
 <template name="tagSearch">
     <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input>
 </template>
+
+<template name="tagInput">
+    <input type="text" name="tagInput" id="tagInput" rows="3" value="" tabindex="1" placeholder="Add a tag"></input>
+</template>
+
+<template name="tagEntry">
+    <li>{{this}}<span class="delete">{{deleteButton}}</span></li>
+</template>
+
+
 
 
 <!-- Begin Comments Template -->
