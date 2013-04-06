@@ -176,11 +176,14 @@ Session.set("postLimit", postLimit)
 //Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
 
 
-Template.gallery.thumbnails = function() {
-        return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
+    Template.gallery.thumbnails = function() {
+        if(Session.get("selected_thumbnail")){
+            console.log(Session.get("selected_thumbnail"));
+            return Pictures.findOne({"_id":Session.get("selected_thumbnail")});  //,{sort: {timestamp: -1}}
+    } else {
+        return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});
+        }
 };
-
-
 Template.tagSearch.events = ({
     'keyup #tagSearch': function() {
         var searchValue = $("#tagSearch").val();
