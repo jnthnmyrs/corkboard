@@ -178,7 +178,7 @@ Session.set("searchToken", searchValue);
 //Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
 
 
-<<<<<<< HEAD
+
     Template.gallery.thumbnails = function() {
         if(Session.get("selected_thumbnail")){
             console.log(Session.get("selected_thumbnail"));
@@ -187,7 +187,7 @@ Session.set("searchToken", searchValue);
         return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});
         }
 };
-=======
+
 Template.gallery.thumbnails = function() {
     if(Session.get("searchToken")){
         var key = "tags." + Session.get("searchToken");
@@ -206,7 +206,7 @@ Template.tagSearch.deleteButton = function(){
     return "✖";
 };
 
->>>>>>> Tag search is working
+
 Template.tagSearch.events = ({
     'keyup #tagSearch': function() {
         var searchValue = $("#tagSearch").val();
