@@ -172,10 +172,13 @@ Template.sidebar.selectedTitle = function () {
 //  Gallery
 //--------------------------------------------------
 var postLimit = 5;
-Session.set("postLimit", postLimit)
+Session.set("postLimit", postLimit);
+var searchValue = $("#tagSearch").val();
+Session.set("searchToken", searchValue);
 //Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
 
 
+<<<<<<< HEAD
     Template.gallery.thumbnails = function() {
         if(Session.get("selected_thumbnail")){
             console.log(Session.get("selected_thumbnail"));
@@ -184,11 +187,32 @@ Session.set("postLimit", postLimit)
         return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});
         }
 };
+=======
+Template.gallery.thumbnails = function() {
+    if(Session.get("searchToken")){
+        var key = "tags." + Session.get("searchToken");
+        var query = {};
+        query[key] = { "$exists": true };
+        return Pictures.find(query);
+    }
+    if(Session.get("selected_thumbnail")){
+
+        return Pictures.find({"_id": Session.get("selected_thumbnail")});
+    }
+    return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
+};
+
+Template.tagSearch.deleteButton = function(){
+    return "✖";
+};
+
+>>>>>>> Tag search is working
 Template.tagSearch.events = ({
     'keyup #tagSearch': function() {
         var searchValue = $("#tagSearch").val();
-
-        var key = "tags." + searchValue;
+        Session.set("searchToken", searchValue);
+        Session.set("selected_thumbnail", null);
+        var key = "tags." + Session.get("searchToken");
         var query = {};
         query[key] = { "$exists": true };
 
@@ -196,13 +220,11 @@ Template.tagSearch.events = ({
         results.forEach(function (item) {
             console.log(item.tags)
         });
-
-        // Template.gallery.thumbnails = function() {
-        //     Pictures.find({},{ "tags." + searchValue : {$exists: true}});  
-        // }
-
-
-
+    },
+    'click .delete': function (){
+        $("#tagSearch").val('');
+        Session.set("searchToken", null);
+        Session.set("selected_thumbnail", null);
     }
 });
     
@@ -520,7 +542,8 @@ Template.tagEntry.deleteButton = function () {
 
 Template.tagEntry.events = ({
     'click': function(){
-
+        Session.set("searchToken", this.toString());
+        Session.set("selected_thumbnail", null);
     },
 
     'click .delete': function () {
@@ -539,31 +562,49 @@ Template.tagEntry.events = ({
 
 });
 
-// Template.tagList.events = ({
-//     'click .newTag': function(){
-//         var tp = Session.get("selected_thumbnail");
-//         var timestamp = (new Date()).getTime();
 
-//         Tags.insert({
-//             title: Meteor.user().emails[0].address.split('@').shift().replace('.', ' '),
-//             targetPicture: tp,
-//             timestamp: timestamp,
-//             tagOwner: Meteor.user()
-//         }); 
+
+
+
+//--------------------------------------------------
+//  Routing
+//--------------------------------------------------
+
+
+// var myAppRouter = Backbone.Router.extend({
+//     routes: {
+//         "*path" : "main"
+//     },
+//     main: function (url_path) {
+//         Session.get('selected_thumbnail');
 //     }
 // });
 
+// Router = new myAppRouter;
 
-
-
-
-
-
-//--------------------------------------------------
-//  Other stuff
-//--------------------------------------------------
-
-     
+// Backbone.history.start({pushState: true});
+// // use HTML5 pushState when available
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

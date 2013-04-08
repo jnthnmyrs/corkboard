@@ -58,6 +58,9 @@
 
 <!-- Begin Gallery Template -->
 <template name="gallery">
+    {{#each selectedThumbnails}}
+        {{> thumbnail}}
+    {{/each}}
     {{#each thumbnails}}
         
             {{> thumbnail}}
@@ -112,7 +115,7 @@
 </template>
 <!-- End taglist Template -->
 <template name="tagSearch">
-    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input>
+    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input><span class="delete">{{deleteButton}}</span>
 </template>
 
 <template name="tagInput">
