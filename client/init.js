@@ -542,6 +542,7 @@ Template.tagEntry.deleteButton = function () {
 
 Template.tagEntry.events = ({
     'click': function(){
+        $("#tagSearch").val(this.toString());
         Session.set("searchToken", this.toString());
         Session.set("selected_thumbnail", null);
     },
