@@ -84,6 +84,7 @@
             {{/if}}
             <div class="titleInfo">
                  posted by <span class="owner">{{pictureOwner}}</span> <span class="date"><time class="timeago" datetime="{{date}}">{{date}}</time> <!-- {{tags}} --></span> 
+
             </div>
             <span class="delete">{{deleteButton}}</span>
         </div>
@@ -134,6 +135,9 @@
 {{#if currentUser}}
     <ul id="commentList" class="unstyled {{hiddenComments}}">
         <h5>Comments</h5>
+        <div id="subscription-check">
+        <input type="checkbox" name="group" id="subscription-box" value="1" title="subscribe" /><label for="subscription-box">Subscribe</label>
+        </div>
         {{#each comments}}
             {{> commentEntry}}
         {{/each}}

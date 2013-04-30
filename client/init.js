@@ -232,7 +232,7 @@ Template.gallery.events = {
     'click #loadMoreLink': function() { 
         postLimit += 5;
         Session.set("postLimit", postLimit);
-        console.log(postLimit);
+        //console.log(postLimit);
     }
 };
 
@@ -256,7 +256,7 @@ Template.thumbnail.pictureOwner = function(){
 };
 
 Template.thumbnail.date = function () {
-    $("time.timeago").timeago();
+   // $("time.timeago").timeago();
     thisDate = this.date;
     return thisDate;
 };
