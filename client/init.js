@@ -373,6 +373,10 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
+Template.commentList.subscribeButton = function () {
+    return this;
+};
+
 Template.commentEntry.commentOwner = function(){
     var commentAuthor = this.commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
     return commentAuthor;
