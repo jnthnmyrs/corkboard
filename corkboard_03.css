@@ -242,11 +242,11 @@ ul.theList{
 	float:left;
 	font-family: helvetica, arial, sans-serif;
 	font-size: 22px;
-	font-weight: bold;
+	font-weight: normal;
 	padding:0;
 	padding-bottom:15px;
 	margin: 0;
-	color: #ef5a00;
+	color: #78797a;  /*#ef5a00;*/
 
 }
 

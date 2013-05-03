@@ -88,7 +88,8 @@ Template.sidebar.events({
         var title = prompt("Title of image:");
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
-        var userName = Meteor.user().emails[0].address.split('@').shift().replace('.', ' ');
+        var userEmail = Meteor.user().emails[0].address;
+        var userName = userEmail.split('@').shift().replace('.', ' ');
 
         reader.onload = function (evt) {
 
@@ -99,8 +100,9 @@ Template.sidebar.events({
                 imgUrl: reader.result,
                 pictureOwner: Meteor.user(),
                 tags: {},
-                emailList: {}
+                emailList: []
             };
+            newPicture.emailList.push(userEmail);
             newPicture.tags[userName] = 0;
             Pictures.insert(newPicture);
 
@@ -375,8 +377,16 @@ Template.commentList.hiddenComments = function () {
 };
 
 Template.commentList.subscribeButton = function () {
+    var targetPicture = Session.get("selected_thumbnail");
+    var user = Meteor.user();
+   // var userEmail = Meteor.user().emails[0].address;
+    var thisPicture = Pictures.findOne({"_id": targetPicture});
+    var emailAdds = thisPicture.emailList;
 
-    return this;
+    // if ( emailAdds.indexOf( userEmail ) > -1 ){
+    //     return "unsubscribe";
+    // };
+        return "subscribe";
 };
 
 Template.commentEntry.commentOwner = function(){
@@ -450,13 +460,14 @@ Template.commentList.events = ({
         var targetPicture = Session.get("selected_thumbnail");
         var user = Meteor.user();
         var thisPicture = Pictures.findOne({"_id": targetPicture});
-        var emailAdds = thisPicture.emailList.emails[0].address;
+        var emailAdds = thisPicture.emailList;
 
         // console.log(Meteor.user());
-
-        Pictures.update({"_id": targetPicture},{ $set: {emailList: user}});
+        Pictures.update({_id: targetPicture}, {'$set': {emailList: emailAdds}});
+        // Pictures.update({"_id": targetPicture},{ $set: {emailList: user}});
 
         console.log(emailAdds);
+
     },
     'click #commentSubmit': function(){
 
