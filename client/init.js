@@ -99,6 +99,7 @@ Template.sidebar.events({
                 imgUrl: reader.result,
                 pictureOwner: Meteor.user(),
                 tags: {},
+                emailList: {}
             };
             newPicture.tags[userName] = 0;
             Pictures.insert(newPicture);
@@ -374,6 +375,7 @@ Template.commentList.hiddenComments = function () {
 };
 
 Template.commentList.subscribeButton = function () {
+
     return this;
 };
 
@@ -444,8 +446,19 @@ Template.commentList.events = ({
 
        }
     },
+    'click #subscribeButton': function(){
+        var targetPicture = Session.get("selected_thumbnail");
+        var user = Meteor.user();
+        var thisPicture = Pictures.findOne({"_id": targetPicture});
+        var emailAdds = thisPicture.emailList.emails[0].address;
 
-    'click .btn': function(){
+        // console.log(Meteor.user());
+
+        Pictures.update({"_id": targetPicture},{ $set: {emailList: user}});
+
+        console.log(emailAdds);
+    },
+    'click #commentSubmit': function(){
 
         var timestamp = (new Date()).getTime();
         var targetPicture = Session.get("selected_thumbnail");
