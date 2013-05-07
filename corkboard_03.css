@@ -294,7 +294,9 @@ ul.theList{
 	text-decoration: none;
 }
 
-
+#tagSearch{
+	width: 80%;
+}
 
 
 

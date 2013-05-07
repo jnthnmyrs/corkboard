@@ -387,10 +387,10 @@ Template.commentList.subscribeButtonText = function () {
 
         //This checks if the user has already subscribed  
         if(emailAdds.indexOf( userEmail ) > -1) {
-            return "Subscribe";
+            return "You are subscribed";
 
         } else {
-            return "Un-Subscribe";
+            return "Subscribe?";
         };
     };
 };
