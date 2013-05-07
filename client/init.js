@@ -376,17 +376,34 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
-Template.commentList.subscribeButton = function () {
+Template.commentList.subscribeButtonText = function () {
+    if(Session.get("selected_thumbnail")){
+        var targetPicture = Session.get("selected_thumbnail");
+        var user = Meteor.user();
+        var userEmail = user.emails[0].address;
+        var thisPicture = Pictures.findOne({"_id": targetPicture});
+        var emailAdds = thisPicture.emailList;
+        console.log(user);
+
+        //This checks if the user has already subscribed  
+        if(emailAdds.indexOf( userEmail ) > -1) {
+            return "Subscribe";
+
+        } else {
+            return "Un-Subscribe";
+        };
+    };
+};
+
+Template.commentList.subscribedList = function () {
+    if(Session.get("selected_thumbnail")) {
     var targetPicture = Session.get("selected_thumbnail");
-    var user = Meteor.user();
-   // var userEmail = Meteor.user().emails[0].address;
     var thisPicture = Pictures.findOne({"_id": targetPicture});
     var emailAdds = thisPicture.emailList;
 
-    // if ( emailAdds.indexOf( userEmail ) > -1 ){
-    //     return "unsubscribe";
-    // };
-        return "subscribe";
+    return emailAdds;
+    }
+    return "nothing selected";
 };
 
 Template.commentEntry.commentOwner = function(){
@@ -414,6 +431,28 @@ Template.commentEntry.events = ({
 
 
 Template.commentList.events = ({
+
+//This action if for subscribing to the comment emails for the currently selected post
+
+    'click #subscribeButton': function(){
+        var targetPicture = Session.get("selected_thumbnail");
+        var user = Meteor.user();
+        var userEmail = user.emails[0].address;
+        var thisPicture = Pictures.findOne({"_id": targetPicture});
+        var emailAdds = thisPicture.emailList;
+
+        // This checks if the user has already subscribed
+        if(emailAdds.indexOf( userEmail ) > -1) {
+            emailAdds.splice(emailAdds.indexOf(userEmail), 1);
+            Pictures.update({"_id": targetPicture}, {'$set': {emailList: emailAdds}});
+
+        } else {
+            emailAdds.push(userEmail);
+            Pictures.update({"_id": targetPicture}, {'$set': {emailList: emailAdds}});
+        };
+
+    },
+
     'keyup': function(evt) {
            if (evt.which === 13  && $("#commentField").val() != ""){
             var timestamp = (new Date()).getTime();
@@ -441,34 +480,21 @@ Template.commentList.events = ({
         var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
         var targetEmail = targetPictureObject.pictureOwner.emails[0].address;
         var targetName = targetEmail.split('@').shift().replace('.', ' ');
+        var emailAdds = targetPictureObject.emailList;
         var commenterName = commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
 
        
 
         Meteor.call('sendEmail',
-        targetEmail,
+        emailAdds,
         'jonathan.myers@markit.com',
-        commenterName + ' commented on your post!',
-        'Hi, ' + targetName + "!\n" + commenterName + " commented on your post:\n" + commentContent + "\nCheck it out on Corkboard.\n- The Corkboard Team"
+        commenterName + ' commented on ' + targetName + "'s" +' post!',
+        "Hey, Gang!\n\n" + commenterName + ' commented on ' + targetName + "'s" +' post!\n\n---\n\n' + commentContent + "\n\n---\n\nCheck it out on Corkboard.\n\n- The Corkboard Team"
         );
-
-
 
        }
     },
-    'click #subscribeButton': function(){
-        var targetPicture = Session.get("selected_thumbnail");
-        var user = Meteor.user();
-        var thisPicture = Pictures.findOne({"_id": targetPicture});
-        var emailAdds = thisPicture.emailList;
 
-        // console.log(Meteor.user());
-        Pictures.update({_id: targetPicture}, {'$set': {emailList: emailAdds}});
-        // Pictures.update({"_id": targetPicture},{ $set: {emailList: user}});
-
-        console.log(emailAdds);
-
-    },
     'click #commentSubmit': function(){
 
         var timestamp = (new Date()).getTime();
@@ -485,15 +511,16 @@ Template.commentList.events = ({
 
         var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
         var targetEmail = targetPictureObject.pictureOwner.emails[0].address;
+        var emailAdds = targetPictureObject.emailList;
         var targetName = targetEmail.split('@').shift().replace('.', ' ');
         var commenterName = commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
 
         
 
         Meteor.call('sendEmail',
-        targetEmail,
+        emailAdds,
         'jonathan.myers@markit.com',
-        commenterName + ' commented on your post!',
+        commenterName + ' commented on ' + targetName + "'s" +' post!',
         'Hi, ' + targetName + "!\n" + commenterName + " commented on your post:\n" + commentContent + "\nCheck it out on Corkboard.\n- The Corkboard Team"
         );
         
@@ -517,7 +544,7 @@ Template.tagList.tags = function() {
 
     if(tp){
         var tags = Pictures.findOne({_id: tp}).tags;
-        console.log(tags);
+        // console.log(tags);
 
         var tagList = [];
         for(var tag in tags)
