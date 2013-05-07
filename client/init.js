@@ -182,14 +182,14 @@ Session.set("searchToken", searchValue);
 
 
 
-    Template.gallery.thumbnails = function() {
-        if(Session.get("selected_thumbnail")){
-            console.log(Session.get("selected_thumbnail"));
-            return Pictures.findOne({"_id":Session.get("selected_thumbnail")});  //,{sort: {timestamp: -1}}
-    } else {
-        return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});
-        }
-};
+// Template.gallery.thumbnails = function() {
+//         if(Session.get("selected_thumbnail")){
+//             //console.log(Session.get("selected_thumbnail"));
+//             return Pictures.findOne({"_id":Session.get("selected_thumbnail")});  //,{sort: {timestamp: -1}}
+//     } else {
+//         return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});
+//         }
+// };
 
 Template.gallery.thumbnails = function() {
     if(Session.get("searchToken")){
@@ -383,7 +383,7 @@ Template.commentList.subscribeButtonText = function () {
         var userEmail = user.emails[0].address;
         var thisPicture = Pictures.findOne({"_id": targetPicture});
         var emailAdds = thisPicture.emailList;
-        console.log(user);
+        //console.log(user);
 
         //This checks if the user has already subscribed  
         if(emailAdds.indexOf( userEmail ) > -1) {
@@ -606,13 +606,15 @@ Template.tagEntry.events = ({
         // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
 
         var tp = Session.get("selected_thumbnail");
-        var to = Pictures.findOne({_id: tp}).pictureOwner._id;
-        var tagNames = Pictures.findOne({_id: tp}).tags;
-        console.log("tagnames " + tagNames);
+        // var to = Pictures.findOne({"_id": tp}).pictureOwner._id;
+        var tagNames = Pictures.findOne({"_id": tp}).tags;
+        // console.log("tagnames " + tagNames);
 
-        delete tagNames[this];
+        console.log(tagNames);
 
-        Pictures.update({_id: tp}, {"$set": {tags: tagNames}});
+        //delete tagNames[this];
+
+        //Pictures.update({_id: tp}, {"$set": {tags: tagNames}});
 
     }
 
