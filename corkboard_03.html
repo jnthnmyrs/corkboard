@@ -17,9 +17,6 @@
             <div class="span9">
 
                 <ul class="theList">
-                    {{#if selected_thumbnail}}
-                        <a href="#" class="back">Back to the list</a>
-                    {{/if}}
                     {{> gallery}}   
                 </ul>       
             </div>
@@ -31,7 +28,7 @@
 <!-- Begin Sidebar Template -->
 <template name="sidebar">
     <h1><a id="homeLink" href="#">Corkboard</a></h1> <!-- This should lead the user back to the main page. -->
-    <span class=" lead">{{about}}</span>
+    <!-- <span class=" lead">{{about}}</span> -->
 
     <div class="welcomeText">
     {{loginButtons}}
@@ -49,7 +46,7 @@
         {{/if}}
     </section>
 
-    <h4>{{selectedTitle}}</h4>
+    <!-- <h4>{{selectedTitle}}</h4> -->
 
     {{> tagList}}
 
@@ -62,6 +59,9 @@
 
 <!-- Begin Gallery Template -->
 <template name="gallery">
+    {{#if selected_thumbnail}}
+        <a href="#" class="back">◀ Back to the list</a>
+    {{/if}}
     {{#each selectedThumbnails}}
         {{> thumbnail}}
     {{/each}}
@@ -109,7 +109,7 @@
 {{#if currentUser}}
     <ul id="taglist">
         {{#if selected_thumbnail}}
-            <p>Tags</p>
+            <h5>Tags</h5>
             {{#each tags}}
                 {{> tagEntry}} 
             {{/each}}
@@ -120,7 +120,7 @@
 </template>
 <!-- End taglist Template -->
 <template name="tagSearch">
-    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input><span class="delete">{{deleteButton}}</span>
+    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input><span class="reset">{{resetButton}}</span>
 </template>
 
 <template name="tagInput">
@@ -152,7 +152,7 @@
 
     <div id="commentForm" class="{{hiddenComments}}">
         <div>
-             <h5<label for="comment">Your Comment</label></h5>
+             <!-- <h5<label for="comment">Your Comment</label></h5> -->
              <input type="text" name="comment" id="commentField" rows="3" value="" tabindex="1" placeholder="Enter your comment here."></input>
         </div>
         <div>

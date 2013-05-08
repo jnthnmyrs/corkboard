@@ -7,9 +7,13 @@ body{
 }
 
 .container {
-	margin-top: 30px;
-	margin-left: 50px;
+	margin-top: 10px;
+	margin-left: 20px;
 	background-color: transparent;
+}
+
+#searchUpload{
+	padding-top: 20px;
 }
 
 #searchBox {
@@ -69,7 +73,7 @@ h1 a#homeLink:hover{
 }*/
 
 #commentList{
-	border-bottom: 1px solid #ddd;
+	/*border-bottom: 1px solid #ddd;*/
 	padding-bottom: 10px;
 	margin-top: 20px;
 }
@@ -101,6 +105,9 @@ h1 a#homeLink:hover{
 #subscription-box{
 	float: left;
 }
+#subscription-check{
+	margin-bottom: 10px;
+}
 #subscription-check label{
 	padding-left: 20px;
 }
@@ -115,6 +122,12 @@ h1 a#homeLink:hover{
 
 ul.theList{
 	list-style: none;
+	margin:0;
+}
+
+.back{
+	display: block;
+	margin-top: 15px;
 }
 
 .theList li{
@@ -180,7 +193,25 @@ ul.theList{
 
 
 
+.reset {
 
+	float:right;
+	cursor: pointer;
+	font-family: helvetica;
+	font-weight:bold;
+	font-size: 20px;
+	color:#fff;
+	margin-right: 0px;
+	padding: 0;
+	background-color: #ddd;
+	display: block;
+	height: 22px;
+	padding: 3px;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 5px;
+}
 
 .delete {
 
@@ -193,7 +224,7 @@ ul.theList{
 	padding: 0;
 }
 
-.delete:hover {
+.delete:hover, .reset:hover {
 	color:#ef5a00;
 }
 
@@ -273,7 +304,7 @@ ul.theList{
 ------------------------------------------*/
 
 .tag{
-	display: block;
+	display: inline-block;
 	font-family: arial;
 	font-weight: bold;
 	color: #312333;
@@ -282,10 +313,13 @@ ul.theList{
 	margin-bottom: 5px;
 	padding: 5px;
 	padding-left: 10px; 
+	padding-right: 5px;
 	background-color: #ededee;
 	border-radius: 3px;
-
-
+}
+.tag .delete{
+	display: block;
+	padding-left: 10px;
 }
 
 .tag:hover{
@@ -298,6 +332,10 @@ ul.theList{
 	width: 80%;
 }
 
+ul#taglist{
+	margin: 0;
+	margin-top: 30px;
+}
 
 
 

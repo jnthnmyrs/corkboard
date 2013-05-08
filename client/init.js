@@ -203,7 +203,7 @@ Template.gallery.thumbnails = function() {
     return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
 };
 
-Template.tagSearch.deleteButton = function(){
+Template.tagSearch.resetButton = function(){
     return "✖";
 };
 
@@ -222,7 +222,7 @@ Template.tagSearch.events = ({
             console.log(item.tags)
         });
     },
-    'click .delete': function (){
+    'click .reset': function (){
         $("#tagSearch").val('');
         Session.set("searchToken", null);
         Session.set("selected_thumbnail", null);
@@ -234,6 +234,10 @@ Template.gallery.events = {
         postLimit += 5;
         Session.set("postLimit", postLimit);
         //console.log(postLimit);
+    },
+    'click .back': function(){
+        Session.set("selected_thumbnail", undefined);
+        // $("#tagSearch").val() = null;
     }
 };
 
