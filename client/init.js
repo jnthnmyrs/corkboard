@@ -10,6 +10,9 @@ $(document).ready( function () {
 });
 
 
+
+
+
 //--------------------------------------------------
 //  Session variables
 //--------------------------------------------------
@@ -185,18 +188,6 @@ var postLimit = 5;
 Session.set("postLimit", postLimit);
 var searchValue = $("#tagSearch").val();
 Session.set("searchToken", searchValue);
-//Put in the Template.gallery.events stuff here for unsetting the selected_thumbnail
-
-
-
-// Template.gallery.thumbnails = function() {
-//         if(Session.get("selected_thumbnail")){
-//             //console.log(Session.get("selected_thumbnail"));
-//             return Pictures.findOne({"_id":Session.get("selected_thumbnail")});  //,{sort: {timestamp: -1}}
-//     } else {
-//         return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});
-//         }
-// };
 
 Template.gallery.thumbnails = function() {
     if(Session.get("searchToken")){
@@ -267,7 +258,8 @@ Template.thumbnail.pictureOwner = function(){
 
 Template.thumbnail.date = function () {
    // $("time.timeago").timeago();
-    thisDate = this.date;
+   //  thisDate = this.date;
+   thisDate = $.timeago(this.date);
     return thisDate;
 };
 
@@ -329,7 +321,7 @@ Template.thumbnail.events({
 
     'click .delete': function(e){
         if( this.pictureOwner._id == Meteor.userId()){
-            if(confirm("You sure?")){
+            if(confirm("Delete " + '"' + this.title + '"' + "?")){
                 
                 var id = Session.get("selected_thumbnail");
                 // var tagId = Tags.find({targetPicture: id},{})._id;
@@ -354,7 +346,7 @@ Template.thumbnail.events({
 
     },
 
-    'contextmenu .title': function (evt, tmpl) { // start editing list name
+    'dblclick .title': function (evt, tmpl) { // start editing list name    contextmenu
         evt.preventDefault();
         if( this.pictureOwner._id == Meteor.userId()){
             Session.set('editing_title', this._id);
@@ -619,7 +611,7 @@ Template.tagEntry.events = ({
         delete tagNames[this];
 
         Pictures.update({_id: tp}, {"$set": {tags: tagNames}});
-        $("#tagSearch").val() = null;
+        $("#tagSearch").val() = $("#tagSearch").val("");
         
     },
 
