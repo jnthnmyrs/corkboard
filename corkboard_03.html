@@ -90,7 +90,7 @@
                  posted by <span class="owner">{{pictureOwner}}</span> <span class="date"><time class="timeago" datetime="{{date}}">{{date}}</time> </span> 
 
             </div>
-            <span class="delete">{{deleteButton}}</span>
+            <span class="delete" title="Delete this post?">{{deleteButton}}</span>
         </div>
 
         {{#if selected}}
@@ -101,7 +101,7 @@
 <!-- End Thumbnail Template -->
 
 <template name="loadMoreLink">
-    <a href="#">Load More</a>
+    <a href="#">Load More Posts</a>
 </template>
 
 <!-- Begin taglist Template -->
@@ -120,7 +120,7 @@
 </template>
 <!-- End taglist Template -->
 <template name="tagSearch">
-    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input><span class="reset">{{resetButton}}</span>
+    <input type="text" name="tagSearch" id="tagSearch" rows="3" value="" tabindex="1" placeholder="Search Tags (e.g. this, that)"></input><span class="reset" title="Reset the search">{{resetButton}}</span>
 </template>
 
 <template name="tagInput">

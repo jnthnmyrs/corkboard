@@ -394,7 +394,7 @@ Template.commentList.subscribeButtonText = function () {
             return "You are subscribed";
 
         } else {
-            return "Subscribe?";
+            return "Subscribe to this post?";
         };
     };
     };
