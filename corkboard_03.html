@@ -15,7 +15,11 @@
                 {{> sidebar}}
             </div>
             <div class="span9">
+
                 <ul class="theList">
+                    {{#if selected_thumbnail}}
+                        <a href="#" class="back">Back to the list</a>
+                    {{/if}}
                     {{> gallery}}   
                 </ul>       
             </div>

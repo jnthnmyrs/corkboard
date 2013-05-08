@@ -65,7 +65,14 @@ var activateInput = function (input) {
 };
 
 
+Template.allTheContent.events({
+    'click .back': function(){
+        Session.set("selected_thumbnail", undefined);
+        // $("#tagSearch").val() = null;
 
+
+    }
+});
 
 //--------------------------------------------------
 //  Sidebar
@@ -377,6 +384,7 @@ Template.commentList.hiddenComments = function () {
 };
 
 Template.commentList.subscribeButtonText = function () {
+    if(Meteor.user()){
     if(Session.get("selected_thumbnail")){
         var targetPicture = Session.get("selected_thumbnail");
         var user = Meteor.user();
@@ -392,6 +400,7 @@ Template.commentList.subscribeButtonText = function () {
         } else {
             return "Subscribe?";
         };
+    };
     };
 };
 
@@ -596,30 +605,31 @@ Template.tagEntry.deleteButton = function () {
 };
 
 Template.tagEntry.events = ({
-    'click': function(){
-        $("#tagSearch").val(this.toString());
-        Session.set("searchToken", this.toString());
-        Session.set("selected_thumbnail", null);
-    },
-
     'click .delete': function () {
+
         // This if statement might be a little bit redundant because the X won't even show up if it doesn't belong to you.
 
         var tp = Session.get("selected_thumbnail");
         // var to = Pictures.findOne({"_id": tp}).pictureOwner._id;
         var tagNames = Pictures.findOne({"_id": tp}).tags;
-        // console.log("tagnames " + tagNames);
+        //console.log("tagnames " + tagNames);
+        // console.log("The id of the currently selected image: " + tp);
+        // console.log(Pictures.findOne({"_id": tp}));
 
-        console.log(tagNames);
+        delete tagNames[this];
 
-        //delete tagNames[this];
+        Pictures.update({_id: tp}, {"$set": {tags: tagNames}});
+        $("#tagSearch").val() = null;
+        
+    },
 
-        //Pictures.update({_id: tp}, {"$set": {tags: tagNames}});
-
+    'click': function(){
+        $("#tagSearch").val(this.toString());
+        Session.set("searchToken", this.toString());
+        console.log("The id of the currently selected image: " + Session.get("selected_thumbnail"));
+        Session.set("selected_thumbnail", null);
     }
-
 });
-
 
 
 
