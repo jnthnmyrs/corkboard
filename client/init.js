@@ -151,6 +151,7 @@ Template.sidebar.events({
     },
     'click #homeLink': function() {
         return Session.set("selected_thumbnail", undefined);
+        Router.setList("home");
     }
 
 });
@@ -324,11 +325,14 @@ Template.thumbnail.events({
             Session.set("selected_thumbnail", null);
         }
         Session.set("selected_thumbnail", this._id);
-                        var id = Session.get("selected_thumbnail");
-                var tagId = Tags.find({targetPicture: id},{})._id;
-                var commentId = Comments.findOne({targetPicture: id});
 
-                // console.log(commentId);
+        Router.setList(this._id);
+
+        var id = Session.get("selected_thumbnail");
+        var tagId = Tags.find({targetPicture: id},{})._id;
+        var commentId = Comments.findOne({targetPicture: id});
+
+        // console.log(commentId);
 
         return true;
     },
@@ -672,19 +676,24 @@ Template.tagEntry.events = ({
 //--------------------------------------------------
 
 
-// var myAppRouter = Backbone.Router.extend({
-//     routes: {
-//         "*path" : "main"
-//     },
-//     main: function (url_path) {
-//         Session.get('selected_thumbnail');
-//     }
-// });
+var TodosRouter = Backbone.Router.extend({
+  routes: {
+    ":selected_thumbnail": "main"
+  },
+  main: function (selected_thumbnail) {
+    Session.set("selected_thumbnail", selected_thumbnail);
+    Session.set("tag_filter", null);
+  },
+  setList: function (selected_thumbnail) {
+    this.navigate(selected_thumbnail, true);
+  }
+});
 
-// Router = new myAppRouter;
+Router = new TodosRouter;
 
-// Backbone.history.start({pushState: true});
-// // use HTML5 pushState when available
+Meteor.startup(function () {
+  Backbone.history.start({pushState: true});
+});
     
 
 
