@@ -70,7 +70,10 @@
             {{> thumbnail}}
         
     {{/each}}
-    <a href="#" id="loadMoreLink">Load More</a>
+    <!-- Here's a kind of wonky way of hiding the Load More link when a post is selected -->
+    {{#if selected_thumbnail}} <!-- {{/if}} 
+    <a href="#" id="loadMoreLink">Load More Posts</a>
+    {{#if selected_thumbnail}} --> {{/if}} 
     
 </template>
 <!-- End Gallery Template -->
@@ -140,7 +143,7 @@
     <ul id="commentList" class="unstyled {{hiddenComments}}">
         <h5>Comments</h5>
         <div id="subscription-check">
-        <button class='btn btn-info' id="subscribeButton" value="{{subscribeButton}}">{{subscribeButtonText}}</button>
+        <button class='btn btn-small {{subscribeButtonClass}}' id="subscribeButton" value="{{subscribeButton}}">{{subscribeButtonText}}</button>
         <!-- <input type="checkbox" name="group" id="subscription-box" value="1" title="subscribe" /><label for="subscription-box">Subscribe</label> -->
         </div>
        <!--  {{subscribedList}} -->

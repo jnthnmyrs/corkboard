@@ -7,7 +7,13 @@ $(document).ready( function () {
 
     //$('img.lazy').lazyload();
 
+    $('a').address(function() {  
+        console.log('this is happening');
+        return $(this).attr('href').replace(/^#/, '');  
+    });  
 });
+
+
 
 
 
@@ -203,6 +209,10 @@ Template.gallery.thumbnails = function() {
     return Pictures.find({},{limit: Session.get("postLimit"), sort: {timestamp: -1}});  //,{sort: {timestamp: -1}}
 };
 
+// Template.gallery.loadMoreLink = function () {
+//     return    this.html('<a href="#" id="loadMoreLink">Load More Posts</a>');
+// };
+
 Template.tagSearch.resetButton = function(){
     return "✖";
 };
@@ -379,6 +389,29 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
+Template.commentList.subscribeButtonClass = function () {
+    if(Meteor.user()){
+    if(Session.get("selected_thumbnail")){
+        var targetPicture = Session.get("selected_thumbnail");
+        var user = Meteor.user();
+        var userEmail = user.emails[0].address;
+        var thisPicture = Pictures.findOne({"_id": targetPicture});
+        var emailAdds = thisPicture.emailList;
+        //console.log(user);
+
+        //This checks if the user has already subscribed  
+        if(emailAdds.indexOf( userEmail ) > -1) {
+            
+            return "btn-success";
+
+        } else {
+            
+            return "";
+        };
+    };
+    };
+};
+
 Template.commentList.subscribeButtonText = function () {
     if(Meteor.user()){
     if(Session.get("selected_thumbnail")){
@@ -391,9 +424,11 @@ Template.commentList.subscribeButtonText = function () {
 
         //This checks if the user has already subscribed  
         if(emailAdds.indexOf( userEmail ) > -1) {
+            
             return "You are subscribed";
 
         } else {
+            
             return "Subscribe to this post?";
         };
     };
@@ -451,9 +486,11 @@ Template.commentList.events = ({
             emailAdds.splice(emailAdds.indexOf(userEmail), 1);
             Pictures.update({"_id": targetPicture}, {'$set': {emailList: emailAdds}});
 
+
         } else {
             emailAdds.push(userEmail);
             Pictures.update({"_id": targetPicture}, {'$set': {emailList: emailAdds}});
+
         };
 
     },
