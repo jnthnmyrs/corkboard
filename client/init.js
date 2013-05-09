@@ -7,10 +7,10 @@ $(document).ready( function () {
 
     //$('img.lazy').lazyload();
 
-    $('a').address(function() {  
-        console.log('this is happening');
-        return $(this).attr('href').replace(/^#/, '');  
-    });  
+    // $('a').address(function() {  
+    //     console.log('this is happening');
+    //     return $(this).attr('href').replace(/^#/, '');  
+    // });  
 });
 
 
