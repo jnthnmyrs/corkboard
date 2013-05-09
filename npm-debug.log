@@ -1,0 +1,212 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'coffee-script' ]
+2 info using npm@1.1.62
+3 info using node@v0.8.11
+4 verbose read json /usr/local/lib/package.json
+5 verbose read json /usr/local/lib/package.json
+6 verbose cache add [ 'coffee-script', null ]
+7 silly cache add name=undefined spec="coffee-script" args=["coffee-script",null]
+8 verbose parsed url { pathname: 'coffee-script',
+8 verbose parsed url   path: 'coffee-script',
+8 verbose parsed url   href: 'coffee-script' }
+9 silly lockFile ab358269-coffee-script coffee-script
+10 verbose lock coffee-script /Users/jonathanmyers/.npm/ab358269-coffee-script.lock
+11 silly lockFile ab358269-coffee-script coffee-script
+12 verbose addNamed [ 'coffee-script', '' ]
+13 verbose addNamed [ null, '' ]
+14 silly lockFile 53951495-coffee-script coffee-script@
+15 verbose lock coffee-script@ /Users/jonathanmyers/.npm/53951495-coffee-script.lock
+16 silly addNameRange { name: 'coffee-script', range: '', hasData: false }
+17 verbose url raw coffee-script
+18 verbose url resolving [ 'https://registry.npmjs.org/', './coffee-script' ]
+19 verbose url resolved https://registry.npmjs.org/coffee-script
+20 info trying registry request attempt 1 at 13:49:13
+21 http GET https://registry.npmjs.org/coffee-script
+22 http 200 https://registry.npmjs.org/coffee-script
+23 silly registry.get cb [ 200,
+23 silly registry.get   { vary: 'Accept',
+23 silly registry.get     server: 'CouchDB/1.2.0 (Erlang OTP/R15B)',
+23 silly registry.get     etag: '"96H60LNOAJQ447JQ4LR8VIIT9"',
+23 silly registry.get     date: 'Mon, 17 Dec 2012 20:48:17 GMT',
+23 silly registry.get     'content-type': 'application/json',
+23 silly registry.get     'content-length': '21239' } ]
+24 silly addNameRange number 2 { name: 'coffee-script', range: '', hasData: true }
+25 silly addNameRange versions [ 'coffee-script',
+25 silly addNameRange   [ '0.7.0',
+25 silly addNameRange     '0.7.1',
+25 silly addNameRange     '0.7.2',
+25 silly addNameRange     '0.9.0',
+25 silly addNameRange     '0.9.1',
+25 silly addNameRange     '0.9.2',
+25 silly addNameRange     '0.9.3',
+25 silly addNameRange     '0.9.4',
+25 silly addNameRange     '0.9.5',
+25 silly addNameRange     '0.9.6',
+25 silly addNameRange     '1.0.0',
+25 silly addNameRange     '1.0.1',
+25 silly addNameRange     '1.1.0',
+25 silly addNameRange     '1.1.1',
+25 silly addNameRange     '1.1.2',
+25 silly addNameRange     '1.1.3',
+25 silly addNameRange     '1.2.0',
+25 silly addNameRange     '1.3.0',
+25 silly addNameRange     '1.3.1',
+25 silly addNameRange     '1.3.2',
+25 silly addNameRange     '1.3.3',
+25 silly addNameRange     '1.4.0' ] ]
+26 verbose addNamed [ 'coffee-script', '1.4.0' ]
+27 verbose addNamed [ '1.4.0', '1.4.0' ]
+28 silly lockFile 0c6dfe35-coffee-script-1-4-0 coffee-script@1.4.0
+29 verbose lock coffee-script@1.4.0 /Users/jonathanmyers/.npm/0c6dfe35-coffee-script-1-4-0.lock
+30 silly lockFile 621dbbe5-e-script-coffee-script-1-4-0-tgz https://registry.npmjs.org/coffee-script/-/coffee-script-1.4.0.tgz
+31 verbose lock https://registry.npmjs.org/coffee-script/-/coffee-script-1.4.0.tgz /Users/jonathanmyers/.npm/621dbbe5-e-script-coffee-script-1-4-0-tgz.lock
+32 verbose addRemoteTarball [ 'https://registry.npmjs.org/coffee-script/-/coffee-script-1.4.0.tgz',
+32 verbose addRemoteTarball   '5e3bc8aac26c01a8e27bf107722c5655f5ad7d36' ]
+33 info retry fetch attempt 1 at 13:49:15
+34 verbose fetch to= /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/tmp.tgz
+35 http GET https://registry.npmjs.org/coffee-script/-/coffee-script-1.4.0.tgz
+36 http 200 https://registry.npmjs.org/coffee-script/-/coffee-script-1.4.0.tgz
+37 silly shasum updated bytes 40960
+38 silly shasum updated bytes 27314
+39 info shasum 5e3bc8aac26c01a8e27bf107722c5655f5ad7d36
+39 info shasum /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/tmp.tgz
+40 verbose tar unpack /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/tmp.tgz
+41 silly lockFile 7e93c137-355080-0-772455669241026-package /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package
+42 verbose lock /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package /Users/jonathanmyers/.npm/7e93c137-355080-0-772455669241026-package.lock
+43 silly gunzTarPerm modes [ '755', '644' ]
+44 silly gunzTarPerm extractEntry package.json
+45 silly gunzTarPerm extractEntry .npmignore
+46 silly gunzTarPerm extractEntry README
+47 silly gunzTarPerm extractEntry LICENSE
+48 silly gunzTarPerm extractEntry bin/cake
+49 silly gunzTarPerm extractEntry bin/coffee
+50 silly gunzTarPerm extractEntry CNAME
+51 silly gunzTarPerm extractEntry CONTRIBUTING.md
+52 silly gunzTarPerm extractEntry extras/jsl.conf
+53 silly gunzTarPerm extractEntry lib/coffee-script/browser.js
+54 silly gunzTarPerm extractEntry lib/coffee-script/command.js
+55 silly gunzTarPerm extractEntry lib/coffee-script/grammar.js
+56 silly gunzTarPerm extractEntry lib/coffee-script/helpers.js
+57 silly gunzTarPerm extractEntry lib/coffee-script/index.js
+58 silly gunzTarPerm extractEntry lib/coffee-script/coffee-script.js
+59 silly gunzTarPerm extractEntry lib/coffee-script/nodes.js
+60 silly gunzTarPerm extractEntry lib/coffee-script/optparse.js
+61 silly gunzTarPerm extractEntry lib/coffee-script/parser.js
+62 silly gunzTarPerm extractEntry lib/coffee-script/repl.js
+63 silly gunzTarPerm extractEntry lib/coffee-script/rewriter.js
+64 silly gunzTarPerm extractEntry lib/coffee-script/cake.js
+65 silly gunzTarPerm extractEntry lib/coffee-script/scope.js
+66 silly gunzTarPerm extractEntry lib/coffee-script/lexer.js
+67 silly gunzTarPerm extractEntry Rakefile
+68 verbose read json /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package/package.json
+69 silly lockFile 7e93c137-355080-0-772455669241026-package /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package
+70 verbose from cache /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package/package.json
+71 verbose tar pack [ '/Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz',
+71 verbose tar pack   '/var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package' ]
+72 verbose tarball /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz
+73 verbose folder /var/folders/rs/php83tsj3p7gdrx2bnr41hwr0000gp/T/npm-90351/1355777355080-0.772455669241026/package
+74 silly lockFile 2d2e2e4b--coffee-script-1-4-0-package-tgz /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz
+75 verbose lock /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz /Users/jonathanmyers/.npm/2d2e2e4b--coffee-script-1-4-0-package-tgz.lock
+76 silly lockFile 2d2e2e4b--coffee-script-1-4-0-package-tgz /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz
+77 silly lockFile 68159281--npm-coffee-script-1-4-0-package /Users/jonathanmyers/.npm/coffee-script/1.4.0/package
+78 verbose lock /Users/jonathanmyers/.npm/coffee-script/1.4.0/package /Users/jonathanmyers/.npm/68159281--npm-coffee-script-1-4-0-package.lock
+79 silly lockFile 68159281--npm-coffee-script-1-4-0-package /Users/jonathanmyers/.npm/coffee-script/1.4.0/package
+80 verbose tar unpack /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz
+81 silly lockFile 68159281--npm-coffee-script-1-4-0-package /Users/jonathanmyers/.npm/coffee-script/1.4.0/package
+82 verbose lock /Users/jonathanmyers/.npm/coffee-script/1.4.0/package /Users/jonathanmyers/.npm/68159281--npm-coffee-script-1-4-0-package.lock
+83 silly gunzTarPerm modes [ '755', '644' ]
+84 silly gunzTarPerm extractEntry package.json
+85 silly gunzTarPerm extractEntry .npmignore
+86 silly gunzTarPerm extractEntry README
+87 silly gunzTarPerm extractEntry LICENSE
+88 silly gunzTarPerm extractEntry bin/cake
+89 silly gunzTarPerm extractEntry bin/coffee
+90 silly gunzTarPerm extractEntry CNAME
+91 silly gunzTarPerm extractEntry CONTRIBUTING.md
+92 silly gunzTarPerm extractEntry extras/jsl.conf
+93 silly gunzTarPerm extractEntry lib/coffee-script/browser.js
+94 silly gunzTarPerm extractEntry lib/coffee-script/command.js
+95 silly gunzTarPerm extractEntry lib/coffee-script/grammar.js
+96 silly gunzTarPerm extractEntry lib/coffee-script/helpers.js
+97 silly gunzTarPerm extractEntry lib/coffee-script/index.js
+98 silly gunzTarPerm extractEntry lib/coffee-script/coffee-script.js
+99 silly gunzTarPerm extractEntry lib/coffee-script/nodes.js
+100 silly gunzTarPerm extractEntry lib/coffee-script/optparse.js
+101 silly gunzTarPerm extractEntry lib/coffee-script/parser.js
+102 silly gunzTarPerm extractEntry lib/coffee-script/repl.js
+103 silly gunzTarPerm extractEntry lib/coffee-script/rewriter.js
+104 silly gunzTarPerm extractEntry lib/coffee-script/cake.js
+105 silly gunzTarPerm extractEntry lib/coffee-script/scope.js
+106 silly gunzTarPerm extractEntry lib/coffee-script/lexer.js
+107 silly gunzTarPerm extractEntry Rakefile
+108 verbose read json /Users/jonathanmyers/.npm/coffee-script/1.4.0/package/package.json
+109 silly lockFile 68159281--npm-coffee-script-1-4-0-package /Users/jonathanmyers/.npm/coffee-script/1.4.0/package
+110 silly shasum updated bytes 40960
+111 silly shasum updated bytes 27313
+112 info shasum d0a476d8453c453315993152bf50096986e8eddf
+112 info shasum /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz
+113 verbose from cache /Users/jonathanmyers/.npm/coffee-script/1.4.0/package/package.json
+114 verbose chmod /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz 644
+115 verbose chown /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz [ 502, 20 ]
+116 silly lockFile 621dbbe5-e-script-coffee-script-1-4-0-tgz https://registry.npmjs.org/coffee-script/-/coffee-script-1.4.0.tgz
+117 silly lockFile 0c6dfe35-coffee-script-1-4-0 coffee-script@1.4.0
+118 silly lockFile 53951495-coffee-script coffee-script@
+119 silly resolved [ { name: 'coffee-script',
+119 silly resolved     description: 'Unfancy JavaScript',
+119 silly resolved     keywords: [ 'javascript', 'language', 'coffeescript', 'compiler' ],
+119 silly resolved     author: { name: 'Jeremy Ashkenas' },
+119 silly resolved     version: '1.4.0',
+119 silly resolved     licenses: [ [Object] ],
+119 silly resolved     engines: { node: '>=0.4.0' },
+119 silly resolved     directories: { lib: './lib/coffee-script' },
+119 silly resolved     main: './lib/coffee-script/coffee-script',
+119 silly resolved     bin: { coffee: './bin/coffee', cake: './bin/cake' },
+119 silly resolved     scripts: { test: 'node ./bin/cake test' },
+119 silly resolved     homepage: 'http://coffeescript.org',
+119 silly resolved     bugs: 'https://github.com/jashkenas/coffee-script/issues',
+119 silly resolved     repository:
+119 silly resolved      { type: 'git',
+119 silly resolved        url: 'git://github.com/jashkenas/coffee-script.git' },
+119 silly resolved     devDependencies: { 'uglify-js': '>=1.0.0', jison: '>=0.2.0' },
+119 silly resolved     readme: '\n            {\n         }   }   {\n        {   {  }  }\n         }   }{  {\n        {  }{  }  }                    _____       __  __\n       ( }{ }{  { )                   / ____|     / _|/ _|\n     .- { { }  { }} -.               | |     ___ | |_| |_ ___  ___\n    (  ( } { } { } }  )              | |    / _ \\|  _|  _/ _ \\/ _ \\\n    |`-..________ ..-\'|              | |___| (_) | | | ||  __/  __/\n    |                 |               \\_____\\___/|_| |_| \\___|\\___|\n    |                 ;--.\n    |                (__  \\            _____           _       _\n    |                 | )  )          / ____|         (_)     | |\n    |                 |/  /          | (___   ___ _ __ _ _ __ | |_\n    |                 (  /            \\___ \\ / __| \'__| | \'_ \\| __|\n    |                 |/              ____) | (__| |  | | |_) | |_\n    |                 |              |_____/ \\___|_|  |_| .__/ \\__|\n     `-.._________..-\'                                  | |\n                                                        |_|\n\n\n  CoffeeScript is a little language that compiles into JavaScript.\n\n  Install Node.js, and then the CoffeeScript compiler:\n  sudo bin/cake install\n\n  Or, if you have the Node Package Manager installed:\n  npm install -g coffee-script\n  (Leave off the -g if you don\'t wish to install globally.)\n\n  Execute a script:\n  coffee /path/to/script.coffee\n\n  Compile a script:\n  coffee -c /path/to/script.coffee\n\n  For documentation, usage, and examples, see:\n  http://coffeescript.org/\n\n  To suggest a feature, report a bug, or general discussion:\n  http://github.com/jashkenas/coffee-script/issues/\n\n  If you\'d like to chat, drop by #coffeescript on Freenode IRC,\n  or on webchat.freenode.net.\n\n  The source repository:\n  git://github.com/jashkenas/coffee-script.git\n\n  All contributors are listed here:\n  http://github.com/jashkenas/coffee-script/contributors\n',
+119 silly resolved     _id: 'coffee-script@1.4.0',
+119 silly resolved     dist: { shasum: 'd0a476d8453c453315993152bf50096986e8eddf' },
+119 silly resolved     _from: 'coffee-script' } ]
+120 info install coffee-script@1.4.0 into /usr/local/lib
+121 info installOne coffee-script@1.4.0
+122 verbose from cache /Users/jonathanmyers/.npm/coffee-script/1.4.0/package/package.json
+123 info /usr/local/lib/node_modules/coffee-script unbuild
+124 verbose read json /usr/local/lib/node_modules/coffee-script/package.json
+125 verbose tar unpack /Users/jonathanmyers/.npm/coffee-script/1.4.0/package.tgz
+126 silly lockFile 7b01d0c2-l-lib-node-modules-coffee-script /usr/local/lib/node_modules/coffee-script
+127 verbose lock /usr/local/lib/node_modules/coffee-script /Users/jonathanmyers/.npm/7b01d0c2-l-lib-node-modules-coffee-script.lock
+128 silly gunzTarPerm modes [ '755', '644' ]
+129 error Error: EACCES, mkdir '/usr/local/lib/node_modules/coffee-script'
+129 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/coffee-script']
+129 error   errno: 3,
+129 error   code: 'EACCES',
+129 error   path: '/usr/local/lib/node_modules/coffee-script',
+129 error   fstream_type: 'Directory',
+129 error   fstream_path: '/usr/local/lib/node_modules/coffee-script',
+129 error   fstream_class: 'DirWriter',
+129 error   fstream_stack:
+129 error    [ 'DirWriter._create (/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23)',
+129 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53',
+129 error      'Object.oncomplete (fs.js:297:15)' ] }
+130 error Please try running this command again as root/Administrator.
+131 error System Darwin 11.4.2
+132 error command "node" "/usr/local/bin/npm" "install" "-g" "coffee-script"
+133 error cwd /Users/jonathanmyers/corkboard
+134 error node -v v0.8.11
+135 error npm -v 1.1.62
+136 error path /usr/local/lib/node_modules/coffee-script
+137 error fstream_path /usr/local/lib/node_modules/coffee-script
+138 error fstream_type Directory
+139 error fstream_class DirWriter
+140 error code EACCES
+141 error errno 3
+142 error stack Error: EACCES, mkdir '/usr/local/lib/node_modules/coffee-script'
+143 error fstream_stack DirWriter._create (/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23)
+143 error fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:37:53
+143 error fstream_stack Object.oncomplete (fs.js:297:15)
+144 verbose exit [ 3, true ]

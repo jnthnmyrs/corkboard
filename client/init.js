@@ -7,22 +7,10 @@ $(document).ready( function () {
 
     //$('img.lazy').lazyload();
 
-    // function loadURL(url) {
-    //             console.log("loadURL: " + url);
-    //             $("#area").load(url);
-    // };
-
-    // $.address.init(function(event) {
-    //     console.log("init: " + $('[rel=address:' + event.value + ']').attr('href'));
-    // }).change(function(event) {
-    //     $("#area").load($('[rel=address:' + event.value + ']').attr('href'));
-    //     console.log("change");
-    // })
-
-    // $('a').address(function() {  
-    //     console.log('this is happening');
-    //     return $(this).attr('href').replace(/^#/, '');  
-    // });  
+    $('a').address(function() {  
+        console.log('this is happening');
+        return $(this).attr('href').replace(/^#/, '');  
+    });  
 });
 
 
