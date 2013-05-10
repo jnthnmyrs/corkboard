@@ -111,13 +111,13 @@
 <template name="tagList">
 {{#if currentUser}}
     <ul id="taglist">
-        {{#if selected_thumbnail}}
+      <!--   {{#if selected_thumbnail}} -->
             <h5>Tags</h5>
             {{#each tags}}
                 {{> tagEntry}} 
             {{/each}}
-            <div class='newTag'>{{> tagInput}}<!-- {{tagAuthorCheck}} --></div>
-        {{/if}}
+            <div class='newTag'>{{> tagInput}}<!-- ;lkjasdf{{tagAuthorCheck}} --></div>
+      <!--   {{/if}} -->
     </ul>
 {{/if}}
 </template>

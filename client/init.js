@@ -15,7 +15,11 @@ $(document).ready( function () {
 
 
 
+//--------------------------------------------------
+//  Global variables
+//--------------------------------------------------
 
+//selectedPicture = Session.get("selected_thumbnail");
 
 
 
@@ -31,7 +35,7 @@ Session.set('editing_title', null);
 Session.set('editing_comment', null);
 
 Handlebars.registerHelper('selected_thumbnail',function(input){
-  return Session.get("selected_thumbnail");
+  return //Session.get("selected_thumbnail");
 });
 
 
@@ -393,28 +397,28 @@ Template.commentList.hiddenComments = function () {
     }
 };
 
-Template.commentList.subscribeButtonClass = function () {
-    if(Meteor.user()){
-    if(Session.get("selected_thumbnail")){
-        var targetPicture = Session.get("selected_thumbnail");
-        var user = Meteor.user();
-        var userEmail = user.emails[0].address;
-        var thisPicture = Pictures.findOne({"_id": targetPicture});
-        var emailAdds = thisPicture.emailList;
-        //console.log(user);
+// Template.commentList.subscribeButtonClass = function () {
+//     if(Meteor.user()){
+//     if(Session.get("selected_thumbnail")){
+//         var targetPicture = Session.get("selected_thumbnail");
+//         var user = Meteor.user();
+//         var userEmail = user.emails[0].address;
+//         var thisPicture = Pictures.findOne({"_id": targetPicture});
+//         var emailAdds = thisPicture.emailList;
+//         //console.log(user);
 
-        //This checks if the user has already subscribed  
-        if(emailAdds.indexOf( userEmail ) > -1) {
+//         //This checks if the user has already subscribed  
+//         if(emailAdds.indexOf( userEmail ) > -1) {
             
-            return "btn-success";
+//             return "btn-success";
 
-        } else {
+//         } else {
             
-            return "";
-        };
-    };
-    };
-};
+//             return "";
+//         };
+//     };
+//     };
+// };
 
 Template.commentList.subscribeButtonText = function () {
     if(Meteor.user()){
