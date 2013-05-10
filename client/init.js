@@ -676,24 +676,24 @@ Template.tagEntry.events = ({
 //--------------------------------------------------
 
 
-var TodosRouter = Backbone.Router.extend({
-  routes: {
-    ":selected_thumbnail": "main"
-  },
-  main: function (selected_thumbnail) {
-    Session.set("selected_thumbnail", selected_thumbnail);
-    Session.set("tag_filter", null);
-  },
-  setList: function (selected_thumbnail) {
-    this.navigate(selected_thumbnail, true);
-  }
-});
+// var TodosRouter = Backbone.Router.extend({
+//   routes: {
+//     ":selected_thumbnail": "main"
+//   },
+//   main: function (selected_thumbnail) {
+//     Session.set("selected_thumbnail", selected_thumbnail);
+//     Session.set("tag_filter", null);
+//   },
+//   setList: function (selected_thumbnail) {
+//     this.navigate(selected_thumbnail, true);
+//   }
+// });
 
-Router = new TodosRouter;
+// Router = new TodosRouter;
 
-Meteor.startup(function () {
-  Backbone.history.start({pushState: true});
-});
+// Meteor.startup(function () {
+//   Backbone.history.start({pushState: true});
+// });
     
 
 
