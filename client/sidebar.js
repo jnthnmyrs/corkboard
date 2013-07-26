@@ -14,6 +14,7 @@ Template.sidebar.events({
 
         var dt = e.dataTransfer;
         var file = dt.files[0];
+        var fileName = file.name;
         var reader = new FileReader();
         var d = new Date().toISOString(); //"2011-12-19T15:28:46.493Z"  //.toDateString("year");
         var title = prompt("Title of image:");
@@ -22,13 +23,20 @@ Template.sidebar.events({
         var userEmail = Meteor.user().emails[0].address;
         var userName = userEmail.split('@').shift().replace('.', ' ');
 
+        console.log(file);
+
         reader.onload = function (evt) {
+            Meteor.call('saveFile', evt.srcElement.result, fileName, null, 'binary');
+            console.log(evt);
+            // evt.srcElement.file, function(file) {
+            // Meteor.saveFile(file, file.name);
+            // };
 
             var newPicture = {
                 title: title,
                 date: d,
                 timestamp: timestamp,
-                imgUrl: reader.result,
+                imgUrl: "public/" + fileName,
                 pictureOwner: Meteor.user(),
                 tags: {},
                 emailList: []
@@ -38,7 +46,7 @@ Template.sidebar.events({
             Pictures.insert(newPicture);
 
         };
-        reader.readAsDataURL(file);
+        reader.readAsBinaryString(file);
 
         // Here's an email send directive
         // Email.send({
@@ -84,7 +92,7 @@ Template.sidebar.hiddenSearchUpload = function () {
 
 Template.sidebar.about = function () {
 // This guy is here to create "random" little things that show up in the upper-left corner right under "Corkboard"
-    var phraseArray = ["Share your work.", "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve stuff.", "Sharpen.", "Proof read."]
+    var phraseArray = ["Share your work.", true, 10, undefined, "Get feedback.", "Give tips.", "Pass it on.", "Work fast.", "Converse.", "Capitalize.", "Achieve stuff.", "Sharpen.", "Proof read."]
     var phraseNumber = Math.floor(Math.random()*10);
     return phraseArray[phraseNumber]; // (Math.floor(Math.random()*10)
 };
