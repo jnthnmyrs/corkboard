@@ -8,13 +8,28 @@
 
 Template.sidebar.events({
 
+
     'drop #dropzone': function (e) {
         e.preventDefault();
         $(e.currentTarget).removeClass('focused');
 
+        // Generate unique IDs for use as pseudo-private/protected names.
+        // Use:
+        //
+        //     var privateName = ID();
+        //     var o = { 'public': 'foo' };
+        //     o[privateName] = 'bar';
+        var ID = function () {
+          // Math.random should be unique because of its seeding algorithm.
+          // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+          // after the decimal.
+          return 'img_' + Math.random().toString(36).substr(2, 9) + '_';
+        };
+
+
         var dt = e.dataTransfer;
         var file = dt.files[0];
-        var fileName = file.name;
+        var fileName = ID() + file.name;
         var reader = new FileReader();
         var d = new Date().toISOString(); //"2011-12-19T15:28:46.493Z"  //.toDateString("year");
         var title = prompt("Title of image:");
@@ -36,7 +51,7 @@ Template.sidebar.events({
                 title: title,
                 date: d,
                 timestamp: timestamp,
-                imgUrl: "pictures/" + fileName,
+                imgUrl: "pictures/" + fileName ,
                 pictureOwner: Meteor.user(),
                 tags: {},
                 emailList: []

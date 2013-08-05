@@ -4,6 +4,8 @@
  */
 Meteor.methods({
   saveFile: function(blob, name, path, encoding) {
+
+
     var path = cleanPath(path), fs = Npm.require('fs'),
       name = cleanName(name || 'file'), encoding = encoding || 'binary',
       chroot = Meteor.chroot || 'public/pictures';
