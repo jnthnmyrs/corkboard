@@ -36,7 +36,7 @@ Template.sidebar.events({
                 title: title,
                 date: d,
                 timestamp: timestamp,
-                imgUrl: "public/" + fileName,
+                imgUrl: "pictures/" + fileName,
                 pictureOwner: Meteor.user(),
                 tags: {},
                 emailList: []
