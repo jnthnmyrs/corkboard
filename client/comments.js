@@ -148,18 +148,19 @@ Template.commentList.events = ({
         // This is where an email gets sent to the creator of this picture
         var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
         var targetEmail = targetPictureObject.pictureOwner.emails[0].address;
-        var targetName = targetEmail.split('@').shift().replace('.', ' ');
+        var targetName = targetEmail.split('@').shift().split('.').shift(); //.replace('.', ' ');
         var emailAdds = targetPictureObject.emailList;
-        var commenterName = commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
+        var commenterName = commentAuthor.emails[0].address.split('@').shift().split('.').shift(); //.replace('.', ' ');
 
        
 
         Meteor.call('sendEmail',
         emailAdds,
-        'jonathan.myers@markit.com',
+        'noreply@markit.com',
         commenterName + ' commented on ' + targetName + "'s" +' post!',
-        "Hey, Gang!\n\n" + commenterName + ' commented on ' + targetName + "'s" +' post!\n\n---\n\n' + commentContent + "\n\n---\n\nCheck it out on Corkboard.\n\n- The Corkboard Team"
+        "Hello!\n\n" + commenterName + " commented on " + targetName + "'s post:\n\n" + '"' + commentContent + '"' + "\n\nBest,\n\nThe Corkboard Team"
         );
+
 
        }
     },
@@ -181,16 +182,16 @@ Template.commentList.events = ({
         var targetPictureObject = Pictures.findOne({"_id": targetPicture}); 
         var targetEmail = targetPictureObject.pictureOwner.emails[0].address;
         var emailAdds = targetPictureObject.emailList;
-        var targetName = targetEmail.split('@').shift().replace('.', ' ');
-        var commenterName = commentAuthor.emails[0].address.split('@').shift().replace('.', ' ');
+        var targetName = targetEmail.split('@').shift().split('.').shift(); //.replace('.', ' ');
+        var commenterName = commentAuthor.emails[0].address.split('@').shift().split('.').shift(); //.replace('.', ' ');
 
         
 
         Meteor.call('sendEmail',
         emailAdds,
-        'jonathan.myers@markit.com',
+        'noreply@markit.com',
         commenterName + ' commented on ' + targetName + "'s" +' post!',
-        'Hi, ' + targetName + "!\n" + commenterName + " commented on your post:\n" + commentContent + "\nCheck it out on Corkboard.\n- The Corkboard Team"
+        "Hello!\n\n" + commenterName + " commented on " + targetName + "'s post:\n\n" + '"' + commentContent + '"' + "\n\nBest,\n\nThe Corkboard Team"
         );
         
         // this resets the commentField so the placeholder text shows up

@@ -5,7 +5,7 @@
 Meteor.methods({
   saveFile: function(blob, name, path, encoding) {
 
-
+    
     var path = cleanPath(path), fs = Npm.require('fs'),
       name = cleanName(name || 'file'), encoding = encoding || 'binary',
       chroot = Meteor.chroot || 'public/pictures';
@@ -24,7 +24,18 @@ Meteor.methods({
         console.log('The file ' + name + ' (' + encoding + ') was saved to ' + path);
       }
     }); 
- 
+
+    // var im = Npm.require('imagemagick');
+    // im.resize({
+    //   srcData: fs.readFileSync(path + name, 'binary'),
+    //   width:   256
+    // }, function(err, stdout, stderr){
+    //   if (err) throw err
+    //   fs.writeFileSync(path + 'thumb' + name, stdout, 'binary');
+    //   console.log('resized kittens.jpg to fit within 256x256px')
+    // });
+
+
     function cleanPath(str) {
       if (str) {
         return str.replace(/\.\./g,'').replace(/\/+/g,'').
