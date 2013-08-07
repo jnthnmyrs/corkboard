@@ -25,14 +25,18 @@ Template.sidebar.events({
           // after the decimal.
           return 'img_' + Math.random().toString(36).substr(2, 9) + '_';
         };
-
+        function getTitle() {
+            var titlePopUpLittleWindow = prompt('Title of image:');
+            return titlePopUpLittleWindow;
+        };
 
         var dt = e.dataTransfer;
         var file = dt.files[0];
         var fileName = ID() + file.name;
+        var fileSize = file.size;
         var reader = new FileReader();
         var d = new Date().toISOString(); //"2011-12-19T15:28:46.493Z"  //.toDateString("year");
-        var title = prompt("Title of image:");
+       
         var timestamp = (new Date()).getTime();
         var ownerName = "Someone";
         var userEmail = Meteor.user().emails[0].address;
@@ -40,26 +44,37 @@ Template.sidebar.events({
 
         console.log(file);
 
+
+
         reader.onload = function (evt) {
-            Meteor.call('saveFile', evt.srcElement.result, fileName, null, 'binary');
-            console.log(evt);
-            // evt.srcElement.file, function(file) {
-            // Meteor.saveFile(file, file.name);
-            // };
+            if (fileSize < 5242880){
+                
+                var title = getTitle();
+                while(title.length === 0){
+                    title = getTitle();
+                };
 
-            var newPicture = {
-                title: title,
-                date: d,
-                timestamp: timestamp,
-                imgUrl: "pictures/" + fileName ,
-                pictureOwner: Meteor.user(),
-                tags: {},
-                emailList: []
-            };
-            newPicture.emailList.push(userEmail);
-            newPicture.tags[userName] = 0;
-            Pictures.insert(newPicture);
+                Meteor.call('saveFile', evt.srcElement.result, fileName, null, 'binary');
+                console.log(evt);
+                // evt.srcElement.file, function(file) {
+                // Meteor.saveFile(file, file.name);
+                // };
 
+                var newPicture = {
+                    title: title,
+                    date: d,
+                    timestamp: timestamp,
+                    imgUrl: "pictures/" + fileName ,
+                    pictureOwner: Meteor.user(),
+                    tags: {},
+                    emailList: []
+                };
+                newPicture.emailList.push(userEmail);
+                newPicture.tags[userName] = 0;
+                Pictures.insert(newPicture);
+            } else {
+                alert("Whoa whoa whoa whoa. That file is a bit too big.");
+            }
         };
         reader.readAsBinaryString(file);
 

@@ -17,13 +17,15 @@ Meteor.methods({
     console.log(path, name, encoding, blob.length);
 
     // TODO Add file existance checks, etc...
-    fs.writeFileSync(path + name, blob, encoding, function(err) {
-      if (err) {
-        throw (new Meteor.Error(500, 'Failed to save file.', err));
-      } else {
-        console.log('The file ' + name + ' (' + encoding + ') was saved to ' + path);
-      }
-    }); 
+    if (blob.length < 5242880){
+      fs.writeFileSync(path + name, blob, encoding, function(err) {
+        if (err) {
+          throw (new Meteor.Error(500, 'Failed to save file.', err));
+        } else {
+          console.log('The file ' + name + ' (' + encoding + ') was saved to ' + path);
+        }
+      }); 
+    };
 
     // var im = Npm.require('imagemagick');
     // im.resize({
