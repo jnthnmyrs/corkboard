@@ -156,7 +156,7 @@ Template.commentList.events = ({
 
         Meteor.call('sendEmail',
         emailAdds,
-        'noreply@markit.com',
+        'corkboard-noreply@alerts.markit.com',
         commenterName + ' commented on ' + targetName + "'s" +' post!',
         "Hello!\n\n" + commenterName + " commented on " + targetName + "'s post:\n\n" + '"' + commentContent + '"' + "\n\nBest,\n\nThe Corkboard Team"
         );
@@ -189,7 +189,7 @@ Template.commentList.events = ({
 
         Meteor.call('sendEmail',
         emailAdds,
-        'noreply@markit.com',
+        'corkboard-noreply@alerts.markit.com',
         commenterName + ' commented on ' + targetName + "'s" +' post!',
         "Hello!\n\n" + commenterName + " commented on " + targetName + "'s post:\n\n" + '"' + commentContent + '"' + "\n\nBest,\n\nThe Corkboard Team"
         );
